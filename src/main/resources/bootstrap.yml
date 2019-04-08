@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: coupon
+  profiles:
+    active: dev
+---
+spring.profiles:  dev
