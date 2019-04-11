@@ -1,8 +1,7 @@
 package com.coupon.api.utils;
 
-import com.chile.web.api.model.SystemConstants;
 import lombok.Data;
-import org.apache.commons.collections.CollectionUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;

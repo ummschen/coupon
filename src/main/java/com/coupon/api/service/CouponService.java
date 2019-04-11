@@ -1,0 +1,13 @@
+package com.coupon.api.service;
+
+import com.coupon.api.dto.AccountDTO;
+import com.coupon.api.entity.CouponDO;
+
+import java.util.List;
+
+public interface CouponService {
+    int save(CouponDO couponDO);
+    int update(CouponDO couponDO);
+    int queryCount(CouponDO couponDO);
+    List<CouponDO> queryList(CouponDO couponDO);
+}

@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 功能描述: 基础分页参数封装
  *
- * @Author: wangyanjing
+ * @Author: cqf
  * @Date: 2019/1/25 14:01
  **/
 @Data
@@ -19,7 +19,6 @@ public class PageInfo implements java.io.Serializable {
 
     private long total;
 
-    private String order;
 
     public PageInfo() {
     }
