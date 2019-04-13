@@ -32,12 +32,6 @@ public class AccountController {
         accountDTOPagingModel.setPageSize(accountDO.getPageSize());
         return  Result.ofSuccess(accountDTOPagingModel);
     }
-    @RequestMapping(value = "/list", method = {RequestMethod.GET})
-    public Result list(){
-        AccountDO accountDO =new AccountDO();
-        List accountList=accountService.queryList(accountDO);
-        return  Result.ofSuccess(accountList);
-    }
 
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
     public Result save(@RequestBody AccountDO accountDO){

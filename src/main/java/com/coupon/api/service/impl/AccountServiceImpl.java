@@ -34,6 +34,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountDTO> queryList(AccountDO accountDO) {
         //RowBounds  rowBounds=new RowBounds(accountDO.getPageIndex(),accountDO.getPageSize());
-        return accountDOMapper.selectList2(accountDO);
+        return accountDOMapper.selectList(accountDO);
     }
 }

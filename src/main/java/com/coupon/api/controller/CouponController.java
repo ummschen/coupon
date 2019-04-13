@@ -41,12 +41,6 @@ public class CouponController {
         CouponDOPagingModel.setPageSize(couponDO.getPageSize());
         return  Result.ofSuccess(CouponDOPagingModel);
     }
-    @RequestMapping(value = "/list", method = {RequestMethod.GET})
-    public Result list(){
-        CouponDO couponDO =new CouponDO();
-        List accountList=couponService.queryList(couponDO);
-        return  Result.ofSuccess(accountList);
-    }
 
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
     public Result save(@RequestBody CouponDO couponDO){

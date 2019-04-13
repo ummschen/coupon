@@ -37,24 +37,24 @@ public class DruidConfig {
     @Value("${spring.datasource.driverClassName}")
     private  String driverClassName;
 
-/*    @Value("${initialSize}")
-    private String initialSize;
+    @Value("${spring.datasource.initialSize}")
+    private int initialSize;
 
-    @Value("${minIdle}")
-    private String minIdle;
+    @Value("${spring.datasource.minIdle}")
+    private int minIdle;
 
-    @Value("${maxActive}")
-    private String maxActive;
+    @Value("${spring.datasource.maxActive}")
+    private int maxActive;
 
-    @Value("${maxWait}")
-    private String maxWait;
+    @Value("${spring.datasource.maxWait}")
+    private int maxWait;
 
-    @Value("${timeBetweenEvictionRunsMillis}")
-    private String timeBetweenEvictionRunsMillis;
+    @Value("${spring.datasource.timeBetweenEvictionRunsMillis}")
+    private int timeBetweenEvictionRunsMillis;
 
-    @Value("${minEvictableIdleTimeMillis}")
-    private String minEvictableIdleTimeMillis;
-*/
+    @Value("${spring.datasource.minEvictableIdleTimeMillis}")
+    private int minEvictableIdleTimeMillis;
+
     @Value("${spring.datasource.validationQuery}")
     private  String validationQuery;
 
@@ -87,22 +87,17 @@ public class DruidConfig {
     @Bean
     public  DataSource druidDataSource() {
         DruidDataSource datasource = new DruidDataSource();
-        System.out.println(dbUrl);
-        System.out.println(username);
-        System.out.println(password);
-        System.out.println(driverClassName);
-        System.out.println(validationQuery);
         datasource.setUrl(dbUrl);
         datasource.setUsername(username);
         datasource.setPassword(password);
         datasource.setDriverClassName(driverClassName);
 
-        datasource.setInitialSize(10);
-        datasource.setMinIdle(5);
-        datasource.setMaxActive(20);
-        datasource.setMaxWait(60000);
-        datasource.setTimeBetweenEvictionRunsMillis(60000);
-        datasource.setMinEvictableIdleTimeMillis(300000);
+        datasource.setInitialSize(initialSize);
+        datasource.setMinIdle(minIdle);
+        datasource.setMaxActive(maxActive);
+        datasource.setMaxWait(maxWait);
+        datasource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+        datasource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
         datasource.setValidationQuery(validationQuery);
         datasource.setTestWhileIdle(true);
         datasource.setTestOnBorrow(false);
