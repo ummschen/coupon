@@ -17,4 +17,43 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+
+  <sql id="baseColumn">
+    `id`, `coupon`, `coupon_type`,`price`,`channel_code`,`business_code`,`status`,`end_time`,`write_off_account`,`create_time`,`update_time`
+  </sql>
+
+
+
+  <select id="queryList" resultType="com.coupon.api.dto.CouponDTO" parameterType="com.coupon.api.entity.CouponDO">
+    select <include refid="baseColumn"/>  from `business`
+    <include refid="sqlWhere"/>
+    order by `create_time` desc
+    <if test="pageIndex != null and pageSize != null">
+      limit #{pageIndex}, #{pageSize}
+    </if>
+
+  </select>
+  <select id="queryCount" parameterType="com.coupon.api.entity.CouponDO" resultType="int">
+    SELECT count(*) from `business`
+    <include refid="sqlWhere"/>
+  </select>
+
+  <sql id="sqlWhere">
+    <where>
+      <if test="id != null ">and id = #{id}</if>
+      <if test="coupon != null and coupon != ''">and coupon = #{coupon}</if>
+      <if test="coupon_type != null and coupon_type != ''">and coupon_type = #{coupon}</if>
+      <if test="channel_code != null and channel_code != ''">and channel_code = #{coupon}</if>
+      <if test="business_code != null and business_code != ''">and business_code = #{coupon}</if>
+      <if test="write_off_account != null and write_off_account != ''">and write_off_account = #{writeOffAccount}</if>
+      <if test="end_time != null and end_time != ''">and end_time = #{coupon}</if>
+      <if test="status != null ">and `status` = #{status}</if>
+      <if test="price != null ">and `price` = #{price}</if>
+      <if test="startCreateTime != null and startCreateTime != ''">and   `create_time` <![CDATA[>=]]>#{startCreateTime,jdbcType=TIMESTAMP} </if>
+      <if test="endCreateTime != null and endCreateTime != ''">and    `create_time`<![CDATA[<=]]>#{endCreateTime,jdbcType=TIMESTAMP}</if>
+    </where>
+  </sql>
+
+
 </mapper>

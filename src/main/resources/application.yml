@@ -7,26 +7,26 @@ logging:
   level:
     root: INFO
     com.coupon.api.mapper: DEBUG
-spring.datasource.url: jdbc:mysql://192.168.1.8:3306/coupon?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+spring.datasource.url: jdbc:mysql://127.0.0.1:3306/coupon?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
 spring.datasource.driverClassName: com.mysql.jdbc.Driver
-spring.datasource.username: wangdong
-spring.datasource.password: s3^@dKKD_354
+spring.datasource.username: root
+spring.datasource.password: 123456
 spring.datasource.validationQuery: SELECT 1 FROM DUAL
 spring.datasource.logSlowSql: true
-######################### DruidÁ¬½Ó³ØµÄÅäÖÃĞÅÏ¢  #################
-spring.datasource.initialSize: 10                                 #³õÊ¼»¯Á¬½Ó´óĞ¡
-spring.datasource.minIdle: 5                                     #×îĞ¡Á¬½Ó³ØÊıÁ¿
-spring.datasource.maxActive: 20                                  #×î´óÁ¬½Ó³ØÊıÁ¿
-spring.datasource.maxWait: 60000                                 #»ñÈ¡Á¬½ÓÊ±×î´óµÈ´ıÊ±¼ä£¬µ¥Î»ºÁÃë
-spring.datasource.timeBetweenEvictionRunsMillis: 60000           #ÅäÖÃ¼ä¸ô¶à¾Ã²Å½øĞĞÒ»´Î¼ì²â£¬¼ì²âĞèÒª¹Ø±ÕµÄ¿ÕÏĞÁ¬½Ó£¬µ¥Î»ÊÇºÁÃë
-spring.datasource.minEvictableIdleTimeMillis: 300000             #ÅäÖÃÒ»¸öÁ¬½ÓÔÚ³ØÖĞ×îĞ¡Éú´æµÄÊ±¼ä£¬µ¥Î»ÊÇºÁÃë
-spring.datasource.testWhileIdle: true                            #ÉêÇëÁ¬½ÓµÄÊ±ºò¼ì²â£¬½¨ÒéÅäÖÃÎªtrue£¬²»Ó°ÏìĞÔÄÜ£¬²¢ÇÒ±£Ö¤°²È«ĞÔ
-spring.datasource.testOnBorrow: false                            #»ñÈ¡Á¬½ÓÊ±Ö´ĞĞ¼ì²â£¬½¨Òé¹Ø±Õ£¬Ó°ÏìĞÔÄÜ
-spring.datasource.testOnReturn: false                            #¹é»¹Á¬½ÓÊ±Ö´ĞĞ¼ì²â£¬½¨Òé¹Ø±Õ£¬Ó°ÏìĞÔÄÜ
-spring.datasource.poolPreparedStatements: false                  #ÊÇ·ñ¿ªÆôPSCache£¬PSCache¶ÔÖ§³ÖÓÎ±êµÄÊı¾İ¿âĞÔÄÜÌáÉı¾Ş´ó£¬oracle½¨Òé¿ªÆô£¬mysqlÏÂ½¨Òé¹Ø±Õ
-spring.datasource.maxPoolPreparedStatementPerConnectionSize: 20  #¿ªÆôpoolPreparedStatementsºóÉúĞ§
-spring.datasource.filters: stat,wall,log4j                       #ÅäÖÃÀ©Õ¹²å¼ş£¬³£ÓÃµÄ²å¼şÓĞ: >stat:¼à¿ØÍ³¼Æ  log4j:ÈÕÖ¾  wall:·ÀÓùsql×¢Èë
-spring.datasource.connectionProperties: 'druid.stat.mergeSql: true;druid.stat.slowSqlMillis: 5000'  #Í¨¹ıconnectPropertiesÊôĞÔÀ´´ò¿ªmergeSql¹¦ÄÜ;ÂıSQL¼ÇÂ¼
+######################### Druidè¿æ¥æ± çš„é…ç½®ä¿¡æ¯  #################
+spring.datasource.initialSize: 10                                 #åˆå§‹åŒ–è¿æ¥å¤§å°
+spring.datasource.minIdle: 5                                     #æœ€å°è¿æ¥æ± æ•°é‡
+spring.datasource.maxActive: 20                                  #æœ€å¤§è¿æ¥æ± æ•°é‡
+spring.datasource.maxWait: 60000                                 #è·å–è¿æ¥æ—¶æœ€å¤§ç­‰å¾…æ—¶é—´ï¼Œå•ä½æ¯«ç§’
+spring.datasource.timeBetweenEvictionRunsMillis: 60000           #é…ç½®é—´éš”å¤šä¹…æ‰è¿›è¡Œä¸€æ¬¡æ£€æµ‹ï¼Œæ£€æµ‹éœ€è¦å…³é—­çš„ç©ºé—²è¿æ¥ï¼Œå•ä½æ˜¯æ¯«ç§’
+spring.datasource.minEvictableIdleTimeMillis: 300000             #é…ç½®ä¸€ä¸ªè¿æ¥åœ¨æ± ä¸­æœ€å°ç”Ÿå­˜çš„æ—¶é—´ï¼Œå•ä½æ˜¯æ¯«ç§’
+spring.datasource.testWhileIdle: true                            #ç”³è¯·è¿æ¥çš„æ—¶å€™æ£€æµ‹ï¼Œå»ºè®®é…ç½®ä¸ºtrueï¼Œä¸å½±å“æ€§èƒ½ï¼Œå¹¶ä¸”ä¿è¯å®‰å…¨æ€§
+spring.datasource.testOnBorrow: false                            #è·å–è¿æ¥æ—¶æ‰§è¡Œæ£€æµ‹ï¼Œå»ºè®®å…³é—­ï¼Œå½±å“æ€§èƒ½
+spring.datasource.testOnReturn: false                            #å½’è¿˜è¿æ¥æ—¶æ‰§è¡Œæ£€æµ‹ï¼Œå»ºè®®å…³é—­ï¼Œå½±å“æ€§èƒ½
+spring.datasource.poolPreparedStatements: false                  #æ˜¯å¦å¼€å¯PSCacheï¼ŒPSCacheå¯¹æ”¯æŒæ¸¸æ ‡çš„æ•°æ®åº“æ€§èƒ½æå‡å·¨å¤§ï¼Œoracleå»ºè®®å¼€å¯ï¼Œmysqlä¸‹å»ºè®®å…³é—­
+spring.datasource.maxPoolPreparedStatementPerConnectionSize: 20  #å¼€å¯poolPreparedStatementsåç”Ÿæ•ˆ
+spring.datasource.filters: stat,wall,log4j                       #é…ç½®æ‰©å±•æ’ä»¶ï¼Œå¸¸ç”¨çš„æ’ä»¶æœ‰: >stat:ç›‘æ§ç»Ÿè®¡  log4j:æ—¥å¿—  wall:é˜²å¾¡sqlæ³¨å…¥
+spring.datasource.connectionProperties: 'druid.stat.mergeSql: true;druid.stat.slowSqlMillis: 5000'  #é€šè¿‡connectPropertieså±æ€§æ¥æ‰“å¼€mergeSqlåŠŸèƒ½;æ…¢SQLè®°å½•
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   config-location: classpath:message/mybatis-config.xml

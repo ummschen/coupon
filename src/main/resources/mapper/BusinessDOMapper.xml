@@ -13,4 +13,36 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+  <sql id="baseColumn">
+    `id`, `business_code`, `business_name`, `enable`, `remark`, `create_time`, `update_time`
+  </sql>
+  
+  
+  
+  <select id="queryList" resultType="com.coupon.api.dto.BusinessDTO" parameterType="com.coupon.api.entity.BusinessDO">
+    select <include refid="baseColumn"/>  from `business`
+    <include refid="sqlWhere"/>
+    order by `create_time` desc
+    <if test="pageIndex != null and pageSize != null">
+      limit #{pageIndex}, #{pageSize}
+    </if>
+    
+  </select>
+  <select id="queryCount" parameterType="com.coupon.api.entity.BusinessDO" resultType="int">
+    SELECT count(*) from `business`
+    <include refid="sqlWhere"/>
+  </select>
+
+  <sql id="sqlWhere">
+    <where>
+      <if test="id != null ">and id = #{id}</if>
+      <if test="business_code != null and business_code != ''">and business_code = #{businessCode}</if>
+      <if test="business_name != null and business_name != ''">and business_name like concat('%',#{businessName},'%')</if>
+      <if test="enable != null ">and `enable` = #{enable}</if>
+      <if test="remark != null and remark != ''">and `remark` like concat('%',#{remark},'%') </if>
+      <if test="startCreateTime != null and startCreateTime != ''">and   `create_time` <![CDATA[>=]]>#{startCreateTime,jdbcType=TIMESTAMP} </if>
+      <if test="endCreateTime != null and endCreateTime != ''">and    `create_time`<![CDATA[<=]]>#{endCreateTime,jdbcType=TIMESTAMP}</if>
+    </where>
+  </sql>
 </mapper>

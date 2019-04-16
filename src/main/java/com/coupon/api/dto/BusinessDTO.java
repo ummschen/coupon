@@ -1,6 +1,5 @@
 package com.coupon.api.dto;
 
-import com.coupon.api.utils.PageInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

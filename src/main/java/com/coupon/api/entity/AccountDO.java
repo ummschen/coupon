@@ -41,7 +41,7 @@ public class AccountDO extends PageInfo {
     private Date createTime;
     @Column(name = "create_time")
     @ApiModelProperty(value = "开始创建时间")
-    private String statrtCreateTime;
+    private String startCreateTime;
     @Column(name = "create_time")
     @ApiModelProperty(value = "结束创建时间")
     private String endCreateTime;

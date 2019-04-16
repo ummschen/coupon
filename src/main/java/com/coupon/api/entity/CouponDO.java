@@ -47,7 +47,11 @@ public class CouponDO extends PageInfo {
     @ApiModelProperty(value = "创建时间")
     @Column(name = "create_time")
     private Date createTime;
-
+    @ApiModelProperty(value = "开始创建时间")
+    private String startCreateTime;
+    @Column(name = "create_time")
+    @ApiModelProperty(value = "结束创建时间")
+    private String endCreateTime;
     @ApiModelProperty(value = "更新时间")
     @Column(name = "update_time")
     private Date updateTime;

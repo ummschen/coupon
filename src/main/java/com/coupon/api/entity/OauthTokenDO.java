@@ -28,7 +28,11 @@ public class OauthTokenDO extends PageInfo {
     @Column(name = "create_time")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
-
+    @ApiModelProperty(value = "开始创建时间")
+    private String startCreateTime;
+    @Column(name = "create_time")
+    @ApiModelProperty(value = "结束创建时间")
+    private String endCreateTime;
     @Column(name = "update_time")
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
