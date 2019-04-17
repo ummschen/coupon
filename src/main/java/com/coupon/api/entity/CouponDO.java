@@ -17,7 +17,10 @@ public class CouponDO extends PageInfo {
 
     @ApiModelProperty(value = "券码")
     private String coupon;
-
+    @ApiModelProperty(value = "加密券码")
+    private String encryption;
+    @ApiModelProperty(value = "随机盐")
+    private String salt;
     @ApiModelProperty(value = "券码种类")
     @Column(name = "coupon_type")
     private String couponType;

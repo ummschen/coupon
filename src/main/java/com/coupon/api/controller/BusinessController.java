@@ -9,6 +9,7 @@ import com.coupon.api.utils.CopyUtil;
 import com.coupon.api.utils.PagingModel;
 import com.coupon.api.utils.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class BusinessController {
     BusinessService businessService;
 
     @RequestMapping(value = "/list", method = {RequestMethod.POST})
+    @ApiOperation(value = "商户列表", httpMethod ="POST")
     public Result list(@RequestBody BusinessDO businessDO){
         PagingModel<BusinessDTO> businessDTOPagingModel = new PagingModel<>();
         List<BusinessDO> businessList=businessService.queryList(businessDO);
@@ -42,6 +44,7 @@ public class BusinessController {
     }
 
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
+    @ApiOperation(value = "商户保存", httpMethod ="POST")
     public Result save(@RequestBody BusinessDO businessDO){
         int  falg=businessService.save(businessDO);
         if(falg>0){
@@ -52,6 +55,7 @@ public class BusinessController {
 
 
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
+    @ApiOperation(value = "商户更新", httpMethod ="POST")
     public Result update(@RequestBody BusinessDO businessDO){
         if (businessDO==null||businessDO.getId()==0){
             return  Result.ofParamsError("更新失败,商户参数异常");

@@ -7,6 +7,7 @@ import com.coupon.api.utils.CopyUtil;
 import com.coupon.api.utils.PagingModel;
 import com.coupon.api.utils.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class ChannelController {
     ChannelService channelService;
 
     @RequestMapping(value = "/list", method = {RequestMethod.POST})
+    @ApiOperation(value = "渠道列表", httpMethod ="POST")
     public Result list(@RequestBody ChannelDO channelDO){
         PagingModel<ChannelDTO> channelDOPagingModel = new PagingModel<>();
         List<ChannelDO> ChannelList=channelService.queryList(channelDO);
@@ -40,6 +42,7 @@ public class ChannelController {
     }
 
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
+    @ApiOperation(value = "渠道新增", httpMethod ="POST")
     public Result save(@RequestBody ChannelDO channelDO){
         int  falg=channelService.save(channelDO);
         if(falg>0){
@@ -50,6 +53,7 @@ public class ChannelController {
 
 
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
+    @ApiOperation(value = "渠道更新", httpMethod ="POST")
     public Result update(@RequestBody ChannelDO channelDO){
         if (channelDO==null||channelDO.getId()==0){
             return  Result.ofParamsError("更新失败,渠道参数异常");

@@ -25,7 +25,7 @@ import java.util.Properties;
  * @since 2019-04-09
  */
 @Slf4j
-//@Configuration
+@Configuration
 @EnableTransactionManagement(proxyTargetClass = true)
 public class MyBatisConfig implements TransactionManagementConfigurer {
 

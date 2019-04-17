@@ -1,6 +1,9 @@
-/*
 package com.coupon.api.oauth;
 
+import com.coupon.api.entity.OauthTokenDO;
+import com.coupon.api.service.OauthTokenService;
+import com.coupon.api.utils.DateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -9,14 +12,18 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.Date;
 
-*/
 /**
  * token拦截器 * * @author sqc * @date 2018/8/2
- *//*
+ */
 
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
+    @Autowired
+    OauthTokenService oauthTokenService;
+
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");
@@ -28,8 +35,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             printJson(response, "");
             return false;
         }
-        User user = (User) getRedisService().get(REDIS_USER_SESSION_KEY + ":" + token);
-        if (user == null) {
+
+        OauthTokenDO oauthTokenDO =oauthTokenService.queryByToken(token, DateUtil.getNowTime());
+        if (oauthTokenDO == null) {
             printJson(response, "");
             return false;
         }
@@ -99,4 +107,3 @@ public class LoginInterceptor implements HandlerInterceptor {
         return SpringContextHolder.getBean(UserService.class);
     }
 }
-*/

@@ -10,6 +10,7 @@ import com.coupon.api.utils.CopyUtil;
 import com.coupon.api.utils.PagingModel;
 import com.coupon.api.utils.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ public class CouponController {
     CouponService couponService;
 
     @RequestMapping(value = "/list", method = {RequestMethod.POST})
+    @ApiOperation(value = "券码列表", httpMethod ="POST")
     public Result list(@RequestBody CouponDO couponDO){
         PagingModel<CouponDTO> CouponDOPagingModel = new PagingModel<>();
         List<CouponDO> couponList=couponService.queryList(couponDO);
@@ -43,6 +45,7 @@ public class CouponController {
     }
 
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
+    @ApiOperation(value = "券码新增", httpMethod ="POST")
     public Result save(@RequestBody CouponDO couponDO){
         int  falg=couponService.save(couponDO);
         if(falg>0){
@@ -53,6 +56,7 @@ public class CouponController {
 
 
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
+    @ApiOperation(value = "券码更新", httpMethod ="POST")
     public Result update(@RequestBody CouponDO couponDO){
         if (couponDO==null||couponDO.getId()==0){
             return  Result.ofParamsError("更新失败,券码参数异常");

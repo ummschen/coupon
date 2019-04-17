@@ -31,6 +31,12 @@ public class OauthTokenServiceImpl implements OauthTokenService {
     }
 
     @Override
+    public OauthTokenDO queryByToken(String token,String nowTime) {
+        OauthTokenDO oauthTokenDO= oauthTokenDOMapper.selectByToken(token,nowTime);
+        return oauthTokenDO;
+    }
+
+    @Override
     public List<OauthTokenDO> queryList(OauthTokenDO oauthTokenDO) {
         RowBounds rowBounds=new RowBounds(oauthTokenDO.getPageIndex(),oauthTokenDO.getPageSize());
         return oauthTokenDOMapper.selectByRowBounds(oauthTokenDO,rowBounds);

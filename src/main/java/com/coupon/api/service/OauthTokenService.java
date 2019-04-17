@@ -8,5 +8,6 @@ public interface OauthTokenService {
     int save(OauthTokenDO oauthTokenDO);
     int update(OauthTokenDO oauthTokenDO);
     int queryCount(OauthTokenDO oauthTokenDO);
+    OauthTokenDO queryByToken(String token,String nowTime) ;
     List<OauthTokenDO> queryList(OauthTokenDO oauthTokenDO);
 }

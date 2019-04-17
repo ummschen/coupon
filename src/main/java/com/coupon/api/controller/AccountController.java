@@ -6,6 +6,7 @@ import com.coupon.api.service.AccountService;
 import com.coupon.api.utils.PagingModel;
 import com.coupon.api.utils.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,9 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
+
     @RequestMapping(value = "/list", method = {RequestMethod.POST})
+    @ApiOperation(value = "账户详细列表", httpMethod ="POST")
     public Result list(@RequestBody AccountDO accountDO){
         PagingModel<AccountDTO> accountDTOPagingModel = new PagingModel<>();
         List accountList=accountService.queryList(accountDO);
@@ -34,6 +37,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
+    @ApiOperation(value = "账户新增", httpMethod ="POST")
     public Result save(@RequestBody AccountDO accountDO){
         int  falg=accountService.save(accountDO);
         if(falg>0){
@@ -44,6 +48,7 @@ public class AccountController {
 
 
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
+    @ApiOperation(value = "账户更新", httpMethod ="POST")
     public Result update(@RequestBody AccountDO accountDO){
         if (accountDO==null||accountDO.getId()==0){
             return  Result.ofParamsError("更新失败,用户参数异常");

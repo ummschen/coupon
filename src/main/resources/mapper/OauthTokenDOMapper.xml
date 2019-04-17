@@ -13,4 +13,15 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+  <sql id="baseColumn" >
+    `id`, `token`, `account`, `expired`, `status`, `create_time`, `update_time`
+  </sql>
+
+  <select id="selectByToken" resultType="com.coupon.api.entity.OauthTokenDO" >
+      select <include refid="baseColumn"/>  from  oauth_token
+      where  token = #{token} and expired>=#{nowTime}
+
+
+  </select>
 </mapper>

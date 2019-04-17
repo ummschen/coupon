@@ -10,6 +10,7 @@ import com.coupon.api.utils.CopyUtil;
 import com.coupon.api.utils.PagingModel;
 import com.coupon.api.utils.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ public class CouponTypeController {
     CouponTypeService couponTypeService;
 
     @RequestMapping(value = "/list", method = {RequestMethod.POST})
+    @ApiOperation(value = "券码类型更新", httpMethod ="POST")
     public Result list(@RequestBody CouponTypeDO couponTypeDO){
         PagingModel<CouponTypeDTO> CouponTypeDOPagingModel = new PagingModel<>();
         List<CouponTypeDO> CouponTypeList=couponTypeService.queryList(couponTypeDO);
@@ -43,6 +45,7 @@ public class CouponTypeController {
     }
 
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
+    @ApiOperation(value = "券码类型更新", httpMethod ="POST")
     public Result save(@RequestBody CouponTypeDO couponTypeDO){
         int  falg=couponTypeService.save(couponTypeDO);
         if(falg>0){
@@ -53,6 +56,7 @@ public class CouponTypeController {
 
 
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
+    @ApiOperation(value = "券码类型更新", httpMethod ="POST")
     public Result update(@RequestBody CouponTypeDO couponTypeDO){
         if (couponTypeDO==null||couponTypeDO.getId()==0){
             return  Result.ofParamsError("更新失败,券码类型参数异常");
