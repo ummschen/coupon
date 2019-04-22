@@ -22,10 +22,10 @@ public class CouponTypeDO extends PageInfo {
     private String name;
 
     @ApiModelProperty(value = "券码金额")
-    private BigDecimal price;
+    private double price;
 
     @ApiModelProperty(value = "启用")
-    private String enable;
+    private int enable;
 
     @ApiModelProperty(value = "备注")
     private String remark;

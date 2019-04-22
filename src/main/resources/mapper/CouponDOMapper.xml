@@ -28,7 +28,7 @@
 
 
   <select id="queryList" resultType="com.coupon.api.dto.CouponDTO" parameterType="com.coupon.api.entity.CouponDO">
-    select <include refid="baseColumn"/>  from `business`
+    select <include refid="baseColumn"/>  from `coupon`
     <include refid="sqlWhere"/>
     order by `create_time` desc
     <if test="pageIndex != null and pageSize != null">
@@ -37,7 +37,7 @@
 
   </select>
   <select id="queryCount" parameterType="com.coupon.api.entity.CouponDO" resultType="int">
-    SELECT count(*) from `business`
+    SELECT count(*) from `coupon`
     <include refid="sqlWhere"/>
   </select>
 
@@ -56,6 +56,28 @@
       <if test="endCreateTime != null and endCreateTime != ''">and    `create_time`<![CDATA[<=]]>#{endCreateTime,jdbcType=TIMESTAMP}</if>
     </where>
   </sql>
+
+
+
+  <insert id="insertBatch" parameterType="java.util.List">
+      insert into coupon ( `coupon`,salt,encryption, `coupon_type`,`price`,`business_code`,
+                                `status`,`end_time`,`create_time`) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+              #{item.coupon},
+              #{item.salt},
+              #{item.encryption},
+              #{item.couponType},
+              #{item.price},
+              #{item.businessCde},
+              #{item.status},
+              #{item.encryption},
+              #{item.end_time},
+              now()
+
+            )
+        </foreach>
+   </insert>
 
 
 </mapper>

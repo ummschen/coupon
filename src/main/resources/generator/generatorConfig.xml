@@ -29,8 +29,6 @@
         <!--
 
         -->
-        <table tableName="coupon" domainObjectName="CouponDO"/>
-        <table tableName="coupon_type" domainObjectName="CouponTypeDO"/>
-
+        <table tableName="coupon_stat" domainObjectName="CouponStatDO"/>
     </context>
 </generatorConfiguration>

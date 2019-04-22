@@ -640,11 +640,38 @@ public class DateUtil {
 		return ret;
 	}
 
-
-	public static String gettimedifference() throws ParseException {
+	/**
+	 *
+	 * @param dateTime
+	 * @return 指定时间与当时时间相差毫秒值
+	 * @throws ParseException
+	 */
+	public static long getMilliDifference(String dateTime) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		//给定的时间
-		Date d = format.parse("2015-07-13 00:00:00");
+		Date d = format.parse(dateTime);
+
+		//当前时间处理
+		Calendar cal = Calendar.getInstance();
+
+		//给定时间处理
+		Calendar setCal = Calendar.getInstance();
+		setCal.setTime(d);
+		long dayDiff = (cal.getTimeInMillis() - setCal.getTimeInMillis());
+		return dayDiff;
+
+	}
+
+	/**
+	 *
+	 * @param dateTime
+	 * @return 指定时间与当时时间相差天数
+	 * @throws ParseException
+	 */
+	public static long getDateDifference(String dateTime) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//给定的时间
+		Date d = format.parse(dateTime);
 
 		//当前时间处理
 		Calendar cal = Calendar.getInstance();
@@ -661,9 +688,8 @@ public class DateUtil {
 		setCal.set(Calendar.SECOND, 0);
 		setCal.set(Calendar.MILLISECOND, 0);
 
-		long dayDiff = (cal.getTimeInMillis() - setCal.getTimeInMillis()) / (1000 * 60 * 60 * 24);
-		String dd = Long.toString(dayDiff);
-		return dd;
+		long dayDiff = (cal.getTimeInMillis() - setCal.getTimeInMillis());
+		return dayDiff;
 
 	}
 

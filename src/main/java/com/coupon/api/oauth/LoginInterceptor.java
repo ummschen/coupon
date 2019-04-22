@@ -1,8 +1,12 @@
 package com.coupon.api.oauth;
 
+import com.coupon.api.entity.AccountDO;
 import com.coupon.api.entity.OauthTokenDO;
+import com.coupon.api.service.AccountService;
 import com.coupon.api.service.OauthTokenService;
 import com.coupon.api.utils.DateUtil;
+import com.coupon.api.utils.Result;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -15,15 +19,23 @@ import java.io.PrintWriter;
 import java.util.Date;
 
 /**
- * token拦截器 * * @author sqc * @date 2018/8/2
+ * token拦截器 * *
  */
 
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
     @Autowired
     OauthTokenService oauthTokenService;
-
-
+    @Autowired
+    AccountService accountService;
+    /**
+     * 在请求处理之前进行调用（Controller方法调用之前）
+     * @param request
+     * @param response
+     * @param handler
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");
@@ -32,25 +44,23 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
         if (token == null || token.equals("")) {
-            printJson(response, "");
+            printJson(response,"无效token信息,请重新登陆");
             return false;
         }
 
         OauthTokenDO oauthTokenDO =oauthTokenService.queryByToken(token, DateUtil.getNowTime());
         if (oauthTokenDO == null) {
-            printJson(response, "");
+            printJson(response,"token过期,请重新登陆");
             return false;
         }
-        String userId = user.getId();
-        User sqlUser = getUserService().getUserById(userId);
-        String enterpriseId = getUserEnterpriseService().selectEnterpriseByUser(userId);
-        if (enterpriseId == null) {
-            getRedisService().set(REDIS_USER_SESSION_KEY + ":" + token, sqlUser, SSO_SESSION_EXPIRE);
-            return true;
+        AccountDO accountDO = new AccountDO();
+        accountDO.setAccount(oauthTokenDO.getAccount());
+        AccountDO account =accountService.query(accountDO);
+        if (account == null||account.getEnable()!=1) {
+            printJson(response,"账户失效,请联系管理员");
+            return false;
         }
-        Enterprise sqlEnterprise = getEnterpriseService().selectEnterpriseById(enterpriseId);
-        getRedisService().set(REDIS_USER_SESSION_KEY + ":" + token, sqlUser, SSO_SESSION_EXPIRE);
-        getRedisService().set(REDIS_ENTERPRISE_SESSION_KEY + ":" + token, sqlEnterprise, SSO_SESSION_EXPIRE);
+
         return true;
     }
 
@@ -71,9 +81,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         // Access-Control-Allow-Origin: *
     }
 
-    private static void printJson(HttpServletResponse response, String code) {
-        ResponseResult responseResult = new ResponseResult(10086, false, "token过期,请重新登陆", null);
-        String content = JSON.toJSONString(responseResult);
+    private static void printJson(HttpServletResponse response ,String message) {
+        Gson gson = new Gson();
+        String content=gson.toJson(Result.ofTokenError(message));
         printContent(response, content);
     }
 
@@ -91,19 +101,4 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
     }
 
-    private EnterpriseService getEnterpriseService() {
-        return SpringContextHolder.getBean(EnterpriseService.class);
-    }
-
-    private RedisService getRedisService() {
-        return SpringContextHolder.getBean(RedisService.class);
-    }
-
-    private UserEnterpriseService getUserEnterpriseService() {
-        return SpringContextHolder.getBean(UserEnterpriseService.class);
-    }
-
-    private UserService getUserService() {
-        return SpringContextHolder.getBean(UserService.class);
-    }
 }

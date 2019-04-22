@@ -36,4 +36,9 @@ public class AccountServiceImpl implements AccountService {
         //RowBounds  rowBounds=new RowBounds(accountDO.getPageIndex(),accountDO.getPageSize());
         return accountDOMapper.selectList(accountDO);
     }
+
+    @Override
+    public AccountDO query(AccountDO accountDO) {
+        return accountDOMapper.selectOne(accountDO);
+    }
 }

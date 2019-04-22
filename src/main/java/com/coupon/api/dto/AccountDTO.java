@@ -32,6 +32,8 @@ public class AccountDTO {
     private Date createTime;
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
+    @ApiModelProperty(value = "Token")
+    private String token;
 
 
 }

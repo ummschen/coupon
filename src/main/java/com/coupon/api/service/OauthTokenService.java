@@ -10,4 +10,6 @@ public interface OauthTokenService {
     int queryCount(OauthTokenDO oauthTokenDO);
     OauthTokenDO queryByToken(String token,String nowTime) ;
     List<OauthTokenDO> queryList(OauthTokenDO oauthTokenDO);
+    OauthTokenDO query(OauthTokenDO oauthTokenDO);
+    String addLoginToken(String account);
 }

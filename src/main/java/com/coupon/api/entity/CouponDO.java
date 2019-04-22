@@ -26,7 +26,7 @@ public class CouponDO extends PageInfo {
     private String couponType;
 
     @ApiModelProperty(value = "金额")
-    private BigDecimal price;
+    private double price;
 
     @ApiModelProperty(value = "渠道编码")
     @Column(name = "channel_code")

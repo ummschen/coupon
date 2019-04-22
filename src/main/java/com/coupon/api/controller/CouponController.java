@@ -7,6 +7,7 @@ import com.coupon.api.entity.ChannelDO;
 import com.coupon.api.entity.CouponDO;
 import com.coupon.api.service.CouponService;
 import com.coupon.api.utils.CopyUtil;
+import com.coupon.api.utils.DateUtil;
 import com.coupon.api.utils.PagingModel;
 import com.coupon.api.utils.Result;
 import io.swagger.annotations.Api;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -52,6 +55,28 @@ public class CouponController {
             return  Result.ofSuccess("券码保存成功");
         }
         return  Result.ofError("券码保存失败");
+    }
+
+
+    @RequestMapping(value = "/save", method = {RequestMethod.POST})
+    @ApiOperation(value = "券码新增", httpMethod ="POST")
+    public Result save(@RequestBody CouponDTO couponDTO){
+        if (couponDTO!=null){
+            String endTime = couponDTO.getEndTime();
+            try {
+               long diff= DateUtil.getMilliDifference(endTime);
+               if(diff>=0){
+                   return  Result.ofError("到期时间必须大于当前时间");
+                }
+            }catch (ParseException exception){
+                exception.printStackTrace();
+            }
+            int  falg=couponService.generate(couponDTO);
+            if(falg>0){
+                return  Result.ofSuccess("券码生成成功");
+            }
+        }
+        return  Result.ofError("参数错误,券码生成失败");
     }
 
 

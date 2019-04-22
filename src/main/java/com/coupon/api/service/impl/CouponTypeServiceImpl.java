@@ -40,4 +40,9 @@ public class CouponTypeServiceImpl implements CouponTypeService {
         RowBounds rowBounds=new RowBounds(couponTypeDO.getPageIndex(),couponTypeDO.getPageSize());
         return couponTypeDOMapper.selectByRowBounds(couponTypeDO,rowBounds);
     }
+
+    @Override
+    public CouponTypeDO query(CouponTypeDO couponTypeDO) {
+        return couponTypeDOMapper.selectOne(couponTypeDO);
+    }
 }

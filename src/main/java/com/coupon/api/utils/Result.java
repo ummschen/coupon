@@ -27,7 +27,7 @@ public class Result<T> implements Serializable {
 	public static final int CODE_AUTHORITY_ERR = 403;        // 权限错误
 	public static final int CODE_NOT_FOUND = 404;            // 非法操作
 	public static final int CODE_ENCRYPTION_ERR = 405;    // 加密错误
-	public static final int CODE_DO_FAIL = 10000;
+	public static final int CODE_DO_FAIL = 999;
 	public static final String SYS_ERR_STRING = "系统错误";
 
 	public Result<T> code(int code) {

@@ -11,7 +11,7 @@
 //        registry.addInterceptor(new LoginInterceptor())
 //                .addPathPatterns("/**")
 //                .excludePathPatterns("/manage/login",
-//                        "/swagger-resources/**",
+//                        "/swagger-resources/**","**/**",
 //                        "/manage/login",
 //                        "/login",
 //                        "/user/makesure/**",

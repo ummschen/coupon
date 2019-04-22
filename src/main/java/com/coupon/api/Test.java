@@ -1,17 +1,15 @@
 package com.coupon.api;
+import com.coupon.api.utils.DateUtil;
 import com.coupon.api.utils.MD5Util;
 import org.apache.shiro.crypto.hash.Md5Hash;
 
 import java.util.UUID;
 
 public class Test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws  Exception{
+       long difference= DateUtil.getMilliDifference("2019-04-23 00:17:00");
 
-        String uuid = generateShortUuid();
-        System.out.println(uuid);
-
-        System.out.println(MD5Util.generate(uuid));
-        //System.out.println( MD5Util.verify(uuid,""));
+        System.out.println( difference);
 
 
     }

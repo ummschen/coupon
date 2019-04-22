@@ -10,4 +10,5 @@ public interface AccountService {
     int update (AccountDO accountDO);
     int queryCount (AccountDO accountDO);
     List<AccountDTO> queryList (AccountDO accountDO);
+    AccountDO query (AccountDO accountDO);
 }
