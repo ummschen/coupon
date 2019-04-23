@@ -1,9 +1,6 @@
 package com.coupon.api.controller;
 
-import com.coupon.api.dto.AccountDTO;
-import com.coupon.api.dto.ChannelDTO;
 import com.coupon.api.dto.CouponDTO;
-import com.coupon.api.entity.ChannelDO;
 import com.coupon.api.entity.CouponDO;
 import com.coupon.api.service.CouponService;
 import com.coupon.api.utils.CopyUtil;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -58,9 +54,9 @@ public class CouponController {
     }
 
 
-    @RequestMapping(value = "/save", method = {RequestMethod.POST})
-    @ApiOperation(value = "券码新增", httpMethod ="POST")
-    public Result save(@RequestBody CouponDTO couponDTO){
+    @RequestMapping(value = "/batch_generate", method = {RequestMethod.POST})
+    @ApiOperation(value = "券码生成", httpMethod ="POST")
+    public Result batchGenerate(@RequestBody CouponDTO couponDTO){
         if (couponDTO!=null){
             String endTime = couponDTO.getEndTime();
             try {
@@ -78,7 +74,17 @@ public class CouponController {
         }
         return  Result.ofError("参数错误,券码生成失败");
     }
-
+    @RequestMapping(value = "/batch_distribute", method = {RequestMethod.POST})
+    @ApiOperation(value = "券码分发", httpMethod ="POST")
+    public Result batchDistribute(@RequestBody CouponDTO couponDTO){
+        if (couponDTO!=null){
+            int  falg=couponService.generate(couponDTO);
+            if(falg>0){
+                return  Result.ofSuccess("券码生成成功");
+            }
+        }
+        return  Result.ofError("参数错误,券码生成失败");
+    }
 
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     @ApiOperation(value = "券码更新", httpMethod ="POST")

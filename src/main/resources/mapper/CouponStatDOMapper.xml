@@ -15,4 +15,26 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+  <update id="generate" >
+      update coupon_stat set un_write_off = un_write_off+#{num},coupon_total=coupon_total+#{num}
+      where
+       business_code=#{couponStat.businessCode}
+       and channel_code=#{couponStatchannelCode.}
+       and coupon_type=#{couponStat.couponType}
+  </update>
+    <update id="distribute" >
+      update coupon_stat set un_write_off = un_write_off-#{num},coupon_total=coupon_total-#{num}
+      where
+       business_code=#{couponStat.businessCode}
+       and channel_code=#{couponStatchannelCode.}
+       and coupon_type=#{couponStat.couponType}
+  </update>
+  <update id="writeOff">
+     update coupon_stat set un_write_off = un_write_off-#{num},write_off = write_off+#{num}
+          where
+           business_code=#{couponStat.businessCode}
+           and channel_code=#{couponStatchannelCode.}
+           and coupon_type=#{couponStat.couponType}
+  </update>
 </mapper>

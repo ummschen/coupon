@@ -4,20 +4,25 @@ import com.coupon.api.dto.AccountDTO;
 import com.coupon.api.dto.CouponDTO;
 import com.coupon.api.entity.AccountDO;
 import com.coupon.api.entity.CouponDO;
+import com.coupon.api.entity.CouponStatDO;
 import com.coupon.api.entity.CouponTypeDO;
 import com.coupon.api.mapper.AccountDOMapper;
 import com.coupon.api.mapper.CouponDOMapper;
 import com.coupon.api.mapper.CouponDOMapper;
 import com.coupon.api.service.AccountService;
 import com.coupon.api.service.CouponService;
+import com.coupon.api.service.CouponStatService;
 import com.coupon.api.service.CouponTypeService;
 import com.coupon.api.utils.DateUtil;
 import com.coupon.api.utils.MD5Util;
+import com.coupon.api.utils.Result;
 import com.coupon.api.utils.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +35,10 @@ public class CouponServiceImpl implements CouponService {
     CouponDOMapper couponDOMapper;
     @Autowired
     CouponTypeService couponTypeService;
+    @Autowired
+    CouponStatService couponStatService;
+
+
     @Override
     public int save(CouponDO couponDO) {
         return couponDOMapper.insertSelective(couponDO);
@@ -52,8 +61,10 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    @Transactional
     public  int generate(CouponDTO couponDTO) {
         List<CouponDO>  list = new ArrayList<>();
+        int flag=0;
         if (couponDTO!=null
                 &&couponDTO.getNum()>0
                 &&StringUtils.isNotBlank(couponDTO.getBusinessCode())
@@ -82,12 +93,57 @@ public class CouponServiceImpl implements CouponService {
                 couponDO.setEndTime(DateUtil.parseDate(DateUtil.DATE_TIME_PATTERN,endTime));
                 list.add(couponDO);
             }
+
+            if (list.size()>0&&list.size()==couponDTO.getNum()){
+                flag= couponDOMapper.insertBatch(list);
+                CouponStatDO couponStatDO= new CouponStatDO();
+                couponStatDO.setBusinessCode(businessCode);
+                couponStatDO.setChannelCode("");
+                couponStatDO.setCouponType(couponType);
+                couponStatService.generate(couponStatDO,flag);
+                System.out.println(flag);
+            }
         }
-        int flag=0;
-        if (list.size()>0&&list.size()==couponDTO.getNum()){
-            flag= couponDOMapper.insertBatch(list);
-            System.out.println(flag);
-        }
+
+
         return flag;
+    }
+
+    @Override
+    public Result distribute(CouponDTO couponDTO) {
+        if (couponDTO!=null
+                &&couponDTO.getNum()>0
+                &&StringUtils.isNotBlank(couponDTO.getBusinessCode())
+                &&StringUtils.isNotBlank(couponDTO.getCouponType())
+                &&couponDTO.getChannelCodes()!=null){
+            String businessCode = couponDTO.getBusinessCode();
+            String couponType = couponDTO.getCouponType();
+            List<String> channelCodes = couponDTO.getChannelCodes();
+            int num =couponDTO.getNum();
+
+            CouponDO couponDO= new CouponDO();
+            couponDO.setBusinessCode(businessCode);
+            couponDO.setCouponType(couponType);
+            couponDO.setChannelCode("");
+
+            int count=couponDOMapper.selectCount(couponDO);
+            if(count>=num*channelCodes.size()){
+                for (String channelCode : channelCodes) {
+                    couponDO.setChannelCode(channelCode);
+                    couponDOMapper.distribute(couponDO,num);
+
+                    CouponStatDO couponStatDO= new CouponStatDO();
+                    couponStatDO.setBusinessCode(businessCode);
+                    couponStatDO.setChannelCode(channelCode);
+                    couponStatDO.setCouponType(couponType);
+                    couponStatService.distribute(couponStatDO,num);
+                }
+            }else {
+                return Result.ofError("待分发券码低于本次分发券码总数！！！");
+            }
+        }
+
+
+        return null;
     }
 }

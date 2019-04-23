@@ -1,10 +1,12 @@
 package com.coupon.api.entity;
 
+import com.coupon.api.utils.PageInfo;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "coupon_stat")
-public class CouponStatDO {
+public class CouponStatDO extends PageInfo {
     @Id
     private Integer id;
 

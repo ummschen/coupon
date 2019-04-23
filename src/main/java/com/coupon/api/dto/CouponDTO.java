@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "coupon")
 @Data
@@ -28,6 +29,9 @@ public class CouponDTO extends PageInfo {
 
     @ApiModelProperty(value = "渠道编码")
     private String channelCode;
+
+    @ApiModelProperty(value = "渠道编码")
+    private List<String> channelCodes;
 
     @ApiModelProperty(value = "商户编码")
     private String businessCode;
