@@ -6,13 +6,13 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import java.util.UUID;
 
 public class Test {
-    public static void main(String[] args) throws  Exception{
+ /*   public static void main(String[] args) throws  Exception{
        long difference= DateUtil.getMilliDifference("2019-04-23 00:17:00");
 
         System.out.println( difference);
 
 
-    }
+    }*/
 
     public static String getAccountIdByUUId() {
         int machineId = 1;//最大支持1-9个集群机器部署
