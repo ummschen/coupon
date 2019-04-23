@@ -10,7 +10,7 @@ public class Redeem {
     //从byte转为字符表索引所需要的位数
     final static int convertByteCount = 5;
 
-    public static void main( String[] args ) throws Exception
+    /*public static void main( String[] args ) throws Exception
     {
         ShowTime();
         System.out.println("=======================");
@@ -21,7 +21,7 @@ public class Redeem {
         VerifyCode("4a36g5naamna");
         VerifyCode("dafe33234g435");
         VerifyCode("ga8ehxsq6dja");
-    }
+    }*/
 
     /**
      * 生成兑换码
