@@ -1,13 +1,14 @@
 package com.coupon.api.dto;
 
 
+import com.coupon.api.utils.PageInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class AccountDTO {
+public class AccountDTO extends PageInfo {
     private Integer id;
 
     @ApiModelProperty(value = "账号")
@@ -28,12 +29,15 @@ public class AccountDTO {
     private Integer enable;
     @ApiModelProperty(value = "备注")
     private String remark;
-    @ApiModelProperty(value = "更新时间")
+    @ApiModelProperty(value = "创建时间")
     private Date createTime;
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
     @ApiModelProperty(value = "Token")
     private String token;
-
+    @ApiModelProperty(value = "开始创建时间")
+    private String startCreateTime;
+    @ApiModelProperty(value = "结束创建时间")
+    private String endCreateTime;
 
 }

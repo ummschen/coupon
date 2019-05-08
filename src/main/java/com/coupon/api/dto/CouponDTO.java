@@ -25,7 +25,7 @@ public class CouponDTO extends PageInfo {
     private String couponType;
 
     @ApiModelProperty(value = "金额")
-    private BigDecimal price;
+    private double price;
 
     @ApiModelProperty(value = "渠道编码")
     private String channelCode;
@@ -40,7 +40,6 @@ public class CouponDTO extends PageInfo {
     private Integer status;
 
     @ApiModelProperty(value = "到期时间")
-    @Column(name = "endTime")
     private String endTime;
 
     @ApiModelProperty(value = "核销账户")

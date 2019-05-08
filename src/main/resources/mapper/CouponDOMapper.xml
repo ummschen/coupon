@@ -45,13 +45,13 @@
     <where>
       <if test="id != null ">and id = #{id}</if>
       <if test="coupon != null and coupon != ''">and coupon = #{coupon}</if>
-      <if test="coupon_type != null and coupon_type != ''">and coupon_type = #{coupon}</if>
-      <if test="channel_code != null and channel_code != ''">and channel_code = #{coupon}</if>
-      <if test="business_code != null and business_code != ''">and business_code = #{coupon}</if>
-      <if test="write_off_account != null and write_off_account != ''">and write_off_account = #{writeOffAccount}</if>
-      <if test="end_time != null and end_time != ''">and end_time = #{coupon}</if>
+      <if test="couponType != null and couponType != ''">and coupon_type = #{couponType}</if>
+      <if test="channelCode != null and channelCode != ''">and channel_code = #{channelCode}</if>
+      <if test="businessCode != null and businessCode != ''">and business_code = #{businessCode}</if>
+      <if test="writeOffAccount != null and writeOffAccount != ''">and write_off_account = #{writeOffAccount}</if>
+      <!--<if test="end_time != null and end_time != ''">and end_time = #{coupon}</if>-->
       <if test="status != null ">and `status` = #{status}</if>
-      <if test="price != null ">and `price` = #{price}</if>
+      <if test="price != null and price !=0">and `price` = #{price}</if>
       <if test="startCreateTime != null and startCreateTime != ''">and   `create_time` <![CDATA[>=]]>#{startCreateTime,jdbcType=TIMESTAMP} </if>
       <if test="endCreateTime != null and endCreateTime != ''">and    `create_time`<![CDATA[<=]]>#{endCreateTime,jdbcType=TIMESTAMP}</if>
     </where>
@@ -69,10 +69,9 @@
               #{item.encryption},
               #{item.couponType},
               #{item.price},
-              #{item.businessCde},
+              #{item.businessCode},
               #{item.status},
-              #{item.encryption},
-              #{item.end_time},
+              #{item.endTime},
               now()
 
             )
@@ -80,11 +79,16 @@
    </insert>
 
   <update id="distribute" >
-    update  coupon set channel_code=#{coupon.channelCode}
+    update  coupon set channel_code=#{coupon.channelCode} ,set status=1
     where coupon_type =#{coupon.couponType}
-          and coupon_type =#{coupon.couponType}
+          and business_code =#{coupon.businessCode}
+          and status=0
+          and channel_code =''
     order by id
     limit #{num}
   </update>
-
+  
+  <select id="selecyByCouponCode" resultType="com.coupon.api.entity.CouponDO">
+    select <include refid="baseColumn"/> from coupon where coupon =#{coupon};
+  </select>
 </mapper>

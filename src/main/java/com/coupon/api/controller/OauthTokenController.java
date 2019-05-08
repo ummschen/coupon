@@ -1,8 +1,6 @@
 package com.coupon.api.controller;
 
-import com.coupon.api.dto.CouponTypeDTO;
 import com.coupon.api.dto.OauthTokenDTO;
-import com.coupon.api.entity.CouponTypeDO;
 import com.coupon.api.entity.OauthTokenDO;
 import com.coupon.api.service.OauthTokenService;
 import com.coupon.api.utils.CopyUtil;
@@ -18,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+/*@RestController
 @RequestMapping("/coupon/token")
-@Api(tags={"用户token"})
+@Api(tags={"用户token"})*/
 public class OauthTokenController {
     @Autowired
     OauthTokenService oauthTokenService;

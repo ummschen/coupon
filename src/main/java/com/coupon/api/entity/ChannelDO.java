@@ -14,11 +14,9 @@ public class ChannelDO extends PageInfo {
     @ApiModelProperty(value = "ID")
     private Integer id;
 
-    @Column(name = "channel_code")
     @ApiModelProperty(value = "渠道编码")
     private String channelCode;
 
-    @Column(name = "channel_name")
     @ApiModelProperty(value = "渠道名称")
     private String channelName;
 
@@ -28,15 +26,14 @@ public class ChannelDO extends PageInfo {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @Column(name = "create_time")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
     @ApiModelProperty(value = "开始创建时间")
+    @Transient
     private String startCreateTime;
-    @Column(name = "create_time")
     @ApiModelProperty(value = "结束创建时间")
+    @Transient
     private String endCreateTime;
-    @Column(name = "update_time")
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 

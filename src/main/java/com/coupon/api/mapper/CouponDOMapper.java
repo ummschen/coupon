@@ -13,5 +13,6 @@ public interface CouponDOMapper extends Mapper<CouponDO> {
     int queryCount(CouponDO couponDO);
     int insertBatch( List<CouponDO> list);
     int distribute(@Param("coupon") CouponDO couponDO,@Param("num") int num);
+    CouponDO selecyByCouponCode(@Param("coupon") String coupon);
 
 }

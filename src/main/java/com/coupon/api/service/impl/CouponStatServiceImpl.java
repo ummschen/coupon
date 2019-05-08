@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 @Service
 public class CouponStatServiceImpl implements CouponStatService {
@@ -27,13 +28,12 @@ public class CouponStatServiceImpl implements CouponStatService {
 
     @Override
     public int queryCount(CouponStatDO couponStatDO) {
-        return couponStatDOMapper.selectCount(couponStatDO);
+        return couponStatDOMapper.queryCount(couponStatDO);
     }
 
     @Override
     public List<CouponStatDO> queryList(CouponStatDO couponStatDO) {
-        RowBounds rowBounds=new RowBounds(couponStatDO.getPageIndex(),couponStatDO.getPageSize());
-        return couponStatDOMapper.selectByRowBounds(couponStatDO,rowBounds);
+        return couponStatDOMapper.queryList(couponStatDO);
     }
 
     @Override
@@ -49,6 +49,8 @@ public class CouponStatServiceImpl implements CouponStatService {
                 flat=couponStatDOMapper.generate(couponStatDO,num);
             }else {
                 couponStatDO.setCouponTotal(num);
+                couponStatDO.setUnWriteOff(num);
+                couponStatDO.setCreateTime(new Date());
                 flat=couponStatDOMapper.insertSelective(couponStatDO);
             }
         }
@@ -61,21 +63,19 @@ public class CouponStatServiceImpl implements CouponStatService {
     public int distribute(CouponStatDO couponStatDO, int num) {
         int flat= generate(couponStatDO,num);
         if (flat>0){
+            couponStatDO.setChannelCode("");
             flat=couponStatDOMapper.distribute(couponStatDO,num);
         }
         return flat;
     }
 
     @Override
-    public int writeOff(CouponStatDO couponStatDO, int num) {
+    public int writeOff(CouponStatDO couponStatDO) {
         int flat=0;
-        if(num<=0){
-            return flat;
-        }
         if (couponStatDO!=null){
             CouponStatDO couponStat=couponStatDOMapper.selectOne(couponStatDO);
             if(couponStat!=null){
-                flat=couponStatDOMapper.writeOff(couponStatDO,num);
+                flat=couponStatDOMapper.writeOff(couponStatDO);
             }
         }
         return flat;

@@ -17,7 +17,6 @@ public class AccountDO extends PageInfo {
     @ApiModelProperty(value = "账户")
     private String account;
 
-    @Column(name = "account_name")
     @ApiModelProperty(value = "用户名称")
     private String accountName;
 
@@ -36,17 +35,14 @@ public class AccountDO extends PageInfo {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @Column(name = "create_time")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
-    @Column(name = "create_time")
     @ApiModelProperty(value = "开始创建时间")
+    @Transient
     private String startCreateTime;
-    @Column(name = "create_time")
     @ApiModelProperty(value = "结束创建时间")
+    @Transient
     private String endCreateTime;
-
-    @Column(name = "update_time")
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 

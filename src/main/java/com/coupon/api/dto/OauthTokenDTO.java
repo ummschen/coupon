@@ -28,11 +28,9 @@ public class OauthTokenDTO extends PageInfo {
     @ApiModelProperty(value = "状态")
     private Integer status;
 
-    @Column(name = "create_time")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @Column(name = "update_time")
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 }

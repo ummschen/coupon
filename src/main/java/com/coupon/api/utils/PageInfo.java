@@ -1,5 +1,6 @@
 package com.coupon.api.utils;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -18,7 +19,6 @@ public class PageInfo implements java.io.Serializable {
     private int pageSize = SystemConstants.DEFAULT_PAGE_SIZE;
 
     private long total;
-
 
     public PageInfo() {
     }

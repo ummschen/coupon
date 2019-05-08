@@ -665,6 +665,27 @@ public class DateUtil {
 	/**
 	 *
 	 * @param dateTime
+	 * @return 指定时间与当时时间相差毫秒值
+	 * @throws ParseException
+	 */
+	public static long getMilliDifference(Date dateTime) throws ParseException {
+		//给定的时间
+		Date d = dateTime;
+
+		//当前时间处理
+		Calendar cal = Calendar.getInstance();
+
+		//给定时间处理
+		Calendar setCal = Calendar.getInstance();
+		setCal.setTime(d);
+		long dayDiff = (cal.getTimeInMillis() - setCal.getTimeInMillis());
+		return dayDiff;
+
+	}
+
+	/**
+	 *
+	 * @param dateTime
 	 * @return 指定时间与当时时间相差天数
 	 * @throws ParseException
 	 */

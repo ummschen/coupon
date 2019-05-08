@@ -22,14 +22,12 @@ public class CouponDO extends PageInfo {
     @ApiModelProperty(value = "随机盐")
     private String salt;
     @ApiModelProperty(value = "券码种类")
-    @Column(name = "coupon_type")
     private String couponType;
 
     @ApiModelProperty(value = "金额")
     private double price;
 
     @ApiModelProperty(value = "渠道编码")
-    @Column(name = "channel_code")
     private String channelCode;
 
     @ApiModelProperty(value = "商户编码")
@@ -40,24 +38,20 @@ public class CouponDO extends PageInfo {
     private Integer status;
 
     @ApiModelProperty(value = "到期时间")
-    @Column(name = "endTime")
     private Date endTime;
 
     @ApiModelProperty(value = "核销账户")
-    @Column(name = "write_off_account")
     private String writeOffAccount;
 
     @ApiModelProperty(value = "创建时间")
-    @Column(name = "create_time")
     private Date createTime;
     @ApiModelProperty(value = "开始创建时间")
+    @Transient
     private String startCreateTime;
-    @Column(name = "create_time")
     @ApiModelProperty(value = "结束创建时间")
+    @Transient
     private String endCreateTime;
     @ApiModelProperty(value = "更新时间")
-    @Column(name = "update_time")
     private Date updateTime;
-
 
 }

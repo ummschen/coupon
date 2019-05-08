@@ -14,10 +14,12 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
-
+  <sql id="baseColumn" >
+    `id`, `account`, `account_name`, `password`, `channel_code`, `business_code`, `enable`, `remark`, `create_time`, `update_time`
+  </sql>
   <select id="selectList" parameterType="com.coupon.api.entity.AccountDO" resultType="com.coupon.api.dto.AccountDTO">
     SELECT
-    account.`id`, `account`, `account_name`, `password`, account.`channel_code`,channel_name, account.`business_code`,
+    account.`id`, `account`, `account_name`, `password`, account.`channel_code` channel,channel_name, account.`business_code` business,
     business_name, account.`enable`, account.`remark`, account.`create_time`, account.`update_time`
     from account LEFT JOIN channel on account.channel_code=channel.channel_code
     LEFT JOIN business on account.business_code=business.business_code
@@ -28,7 +30,12 @@
     </if>
   </select>
 
+  <select id="selectOne" parameterType="com.coupon.api.entity.AccountDO" resultType="com.coupon.api.entity.AccountDO">
 
+    SELECT <include refid="baseColumn"/> from account
+    <include refid="sqlWhere"/>
+
+  </select>
 
   <select id="queryCount" parameterType="com.coupon.api.entity.AccountDO" resultType="int">
     SELECT count(*)
@@ -36,7 +43,7 @@
     LEFT JOIN business on account.business_code=business.business_code
     <include refid="sqlWhere"/>
   </select>
-  
+
   <sql id="sqlWhere">
     <where>
       <if test="id != null ">and account.id = #{id}</if>

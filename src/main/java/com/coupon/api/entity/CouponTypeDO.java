@@ -3,6 +3,7 @@ package com.coupon.api.entity;
 import com.coupon.api.utils.PageInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.Value;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,9 +21,9 @@ public class CouponTypeDO extends PageInfo {
 
     @ApiModelProperty(value = "券码类型名称")
     private String name;
-
+    @Column(name = "price")
     @ApiModelProperty(value = "券码金额")
-    private double price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "启用")
     private int enable;
@@ -30,15 +31,14 @@ public class CouponTypeDO extends PageInfo {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @Column(name = "create_time")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
     @ApiModelProperty(value = "开始创建时间")
+    @Transient
     private String startCreateTime;
-    @Column(name = "create_time")
     @ApiModelProperty(value = "结束创建时间")
+    @Transient
     private String endCreateTime;
-    @Column(name = "update_time")
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 

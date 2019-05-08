@@ -3,6 +3,7 @@ package com.coupon.api.service.impl;
 import com.coupon.api.entity.OauthTokenDO;
 import com.coupon.api.mapper.OauthTokenDOMapper;
 import com.coupon.api.service.OauthTokenService;
+import com.coupon.api.utils.DateUtil;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,9 +60,14 @@ public class OauthTokenServiceImpl implements OauthTokenService {
         date.setTime(date.getTime() + 1000 * 3600 * 2);
         loginTicket.setExpired(date);
         loginTicket.setStatus(0);
+        loginTicket.setCreateTime(new Date());
         loginTicket.setToken(UUID.randomUUID().toString().replaceAll("-", ""));
 
         if (oauthTokenDO != null && oauthTokenDO.getId() > 0) {
+            if(DateUtil.minusSecond(oauthTokenDO.getExpired(),new Date())>0){
+                return oauthTokenDO.getToken();
+            }
+
             loginTicket.setId(oauthTokenDO.getId());
             update(loginTicket);
         } else {

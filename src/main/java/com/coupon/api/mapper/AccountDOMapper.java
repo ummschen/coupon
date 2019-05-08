@@ -10,4 +10,6 @@ import java.util.List;
 public interface AccountDOMapper extends Mapper<AccountDO> {
     List<AccountDTO> selectList(AccountDO accountDO);
     int queryCount(AccountDO accountDO);
+    @Override
+    AccountDO selectOne(AccountDO accountDO);
 }

@@ -104,9 +104,10 @@ public class MD5Util {
 
 
 
-   /* public static void main(String[] args) {
+  /*  public static void main(String[] args) {
         Map<String,String> password = encryption("123456");
         System.out.println(password);
+
         System.out.println(verify("123456", password.get("encryption")));
         System.out.println(verify("123456", password.get("salt"), password.get("encryption")));
     }*/

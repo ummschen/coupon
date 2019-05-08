@@ -32,11 +32,9 @@ public class CouponTypeDTO extends PageInfo {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @Column(name = "create_time")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @Column(name = "update_time")
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 

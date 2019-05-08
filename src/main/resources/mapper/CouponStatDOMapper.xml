@@ -15,26 +15,61 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+    <sql id="baseColumn">
+         `id`, `business_code`, `channel_code`, `coupon_type`, `write_off`, `un_write_off`, `coupon_total`, `create_time`, `update_time`
 
+    </sql>
   <update id="generate" >
       update coupon_stat set un_write_off = un_write_off+#{num},coupon_total=coupon_total+#{num}
       where
        business_code=#{couponStat.businessCode}
-       and channel_code=#{couponStatchannelCode.}
+       and channel_code=#{couponStat.channelCode}
        and coupon_type=#{couponStat.couponType}
   </update>
     <update id="distribute" >
       update coupon_stat set un_write_off = un_write_off-#{num},coupon_total=coupon_total-#{num}
       where
        business_code=#{couponStat.businessCode}
-       and channel_code=#{couponStatchannelCode.}
+       and channel_code=#{couponStat.channelCode}
        and coupon_type=#{couponStat.couponType}
   </update>
   <update id="writeOff">
-     update coupon_stat set un_write_off = un_write_off-#{num},write_off = write_off+#{num}
+     update coupon_stat set un_write_off = un_write_off-1,write_off = write_off+1
           where
            business_code=#{couponStat.businessCode}
-           and channel_code=#{couponStatchannelCode.}
+           and channel_code=#{couponStat.channelCode}
            and coupon_type=#{couponStat.couponType}
   </update>
+
+   <select id="selectUnWriteOffByCouponStatDO" resultType="integer">
+      select un_write_off from coupon_stat
+        where  business_code=#{couponStat.businessCode}
+           and channel_code=#{couponStat.channelCode}
+           and coupon_type=#{couponStat.couponType}
+
+   </select>
+
+    <select id="queryList" parameterType="com.coupon.api.entity.CouponStatDO" resultType="com.coupon.api.entity.CouponStatDO">
+    select <include refid="baseColumn"/> from coupon_stat
+    <where>
+        <if test="couponType != null and couponType != ''">and coupon_type = #{couponType}</if>
+        <if test="channelCode != null and channelCode != ''">and channel_code = #{channelCode}</if>
+        <if test="businessCode != null and businessCode != ''">and business_code = #{businessCode}</if>
+    </where>
+    <if test="pageIndex != null and pageSize != null">
+        limit #{pageIndex}, #{pageSize}
+    </if>
+
+
+</select>
+
+    <select id="queryCount" parameterType="com.coupon.api.entity.CouponStatDO" resultType="int">
+        select count(*)  from coupon_stat
+        <where>
+            <if test="couponType != null and couponType != ''">and coupon_type = #{couponType}</if>
+            <if test="channelCode != null and channelCode != ''">and channel_code = #{channelCode}</if>
+            <if test="businessCode != null and businessCode != ''">and business_code = #{businessCode}</if>
+        </where>
+
+    </select>
 </mapper>
