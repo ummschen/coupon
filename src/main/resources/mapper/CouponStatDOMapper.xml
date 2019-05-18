@@ -52,9 +52,9 @@
     <select id="queryList" parameterType="com.coupon.api.entity.CouponStatDO" resultType="com.coupon.api.entity.CouponStatDO">
     select <include refid="baseColumn"/> from coupon_stat
     <where>
-        <if test="couponType != null and couponType != ''">and coupon_type = #{couponType}</if>
-        <if test="channelCode != null and channelCode != ''">and channel_code = #{channelCode}</if>
-        <if test="businessCode != null and businessCode != ''">and business_code = #{businessCode}</if>
+        <if test='couponType != null and couponType != ""'>and coupon_type = #{couponType}</if>
+        <if test='channelCode != null and channelCode != ""'>and channel_code = #{channelCode}</if>
+        <if test='businessCode != null and businessCode != ""'>and business_code = #{businessCode}</if>
     </where>
     <if test="pageIndex != null and pageSize != null">
         limit #{pageIndex}, #{pageSize}
@@ -66,9 +66,9 @@
     <select id="queryCount" parameterType="com.coupon.api.entity.CouponStatDO" resultType="int">
         select count(*)  from coupon_stat
         <where>
-            <if test="couponType != null and couponType != ''">and coupon_type = #{couponType}</if>
-            <if test="channelCode != null and channelCode != ''">and channel_code = #{channelCode}</if>
-            <if test="businessCode != null and businessCode != ''">and business_code = #{businessCode}</if>
+            <if test='couponType != null and couponType != ""'>and coupon_type = #{couponType}</if>
+            <if test='channelCode != null and channelCode != ""'>and channel_code = #{channelCode}</if>
+            <if test='businessCode != null and businessCode != ""'>and business_code = #{businessCode}</if>
         </where>
 
     </select>

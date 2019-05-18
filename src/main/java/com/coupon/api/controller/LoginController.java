@@ -33,35 +33,52 @@ public class LoginController {
     OauthTokenService oauthTokenService;
 
 
-    @RequestMapping(value = "/manage/login", method = {RequestMethod.POST})
+    @RequestMapping(value = "/coupon/manage/login", method = {RequestMethod.POST})
     @ApiOperation(value = "后台登录", httpMethod ="POST")
-    public Result manageLogin(@RequestParam(value="userName") String userName, @RequestParam(value="password") String password){
-        ManageDO loginManage = new ManageDO();
-        loginManage.setUserName(userName);
-        loginManage.setPassword(password);
-        ManageDO manageDO=manageService.query(loginManage);
+    public Result manageLogin(@RequestBody ManageDO loginManage){
+        if(loginManage==null||loginManage.getUserName()==null||loginManage.getPassword()==null){
+            return  Result.ofError("账号或密码错误");
+        }
+        ManageDO loginManageDO = new ManageDO();
+        loginManageDO.setUserName(loginManage.getUserName());
+        loginManageDO.setPassword(loginManage.getPassword());
+        ManageDO manageDO=manageService.query(loginManageDO);
         if (manageDO!=null&&manageDO.getEnable()==1){
             ManageDTO manageDTO= CopyUtil.copy(manageDO, ManageDTO.class);
-            String token=oauthTokenService.addLoginToken(userName);
+            Date date = new Date();
+            date.setTime(date.getTime() + 1000 * 3600 * 2);
+            String token=oauthTokenService.addLoginToken(loginManage.getUserName(),date);
             manageDTO.setToken(token);
             return  Result.ofSuccess(manageDTO);
         }
         return  Result.ofError("账号或密码错误");
     }
 
-    @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    @RequestMapping(value = "/coupon/login", method = {RequestMethod.POST})
     @ApiOperation(value = "店员登录", httpMethod ="POST")
-    public Result login(@RequestParam(value="username") String userName, @RequestParam(value="password") String password){
+    public Result login(@RequestBody AccountDO account ){
+        if(account==null||account.getAccount()==null||account.getPassword()==null){
+            return  Result.ofError("账号或密码错误");
+        }
         AccountDO loginAccount = new AccountDO();
-        loginAccount.setAccount(userName);
-        loginAccount.setPassword(password);
+        loginAccount.setAccount(account.getAccount());
+        loginAccount.setPassword(account.getPassword());
         AccountDO accountDO=accountService.query(loginAccount);
         if (accountDO!=null&&accountDO.getEnable()==1){
             AccountDTO accountDTO= CopyUtil.copy(accountDO, AccountDTO.class);
-            String token=oauthTokenService.addLoginToken(userName);
+            Date date = new Date();
+            date.setTime(date.getTime() + 1000 * 3600 * 10);
+            String token=oauthTokenService.addLoginToken(account.getAccount(),date);
             accountDTO.setToken(token);
             return  Result.ofSuccess(accountDTO);
         }
         return  Result.ofError("账号或密码错误");
+    }
+
+
+    @RequestMapping(value = "/coupon/test", method = {RequestMethod.GET})
+    @ApiOperation(value = "店员登录", httpMethod ="GET")
+    public Result test( ){
+        return  Result.ofSuccess("TEST");
     }
 }

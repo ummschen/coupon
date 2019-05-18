@@ -7,10 +7,12 @@ import com.coupon.api.mapper.AccountDOMapper;
 import com.coupon.api.mapper.BusinessDOMapper;
 import com.coupon.api.service.AccountService;
 import com.coupon.api.service.BusinessService;
+import com.coupon.api.utils.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,6 +23,15 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public int save(BusinessDO businessDO) {
+        if(businessDO!=null&& StringUtils.isNotBlank(businessDO.getBusinessCode())){
+            BusinessDO business = new BusinessDO();
+            business.setBusinessCode(businessDO.getBusinessCode());
+            BusinessDO resultBusiness=businessDOMapper.selectOne(business);
+            if(resultBusiness!=null){
+                return -2;
+            }
+        }
+        businessDO.setCreateTime(new Date());
         return businessDOMapper.insertSelective(businessDO);
     }
 
@@ -31,12 +42,11 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public int queryCount(BusinessDO businessDO) {
-        return businessDOMapper.selectCount(businessDO);
+        return businessDOMapper.queryCount(businessDO);
     }
 
     @Override
     public List<BusinessDO> queryList(BusinessDO businessDO) {
-        RowBounds  rowBounds=new RowBounds(businessDO.getPageIndex(),businessDO.getPageSize());
-        return businessDOMapper.selectByRowBounds(businessDO,rowBounds);
+        return businessDOMapper.queryList(businessDO);
     }
 }

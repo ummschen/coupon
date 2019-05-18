@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface BusinessDOMapper extends Mapper<BusinessDO> {
-    List<BusinessDTO> queryList(BusinessDO accountDO);
+    List<BusinessDO> queryList(BusinessDO accountDO);
     int queryCount(BusinessDO accountDO);
 }

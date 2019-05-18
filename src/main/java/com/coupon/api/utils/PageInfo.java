@@ -3,6 +3,8 @@ package com.coupon.api.utils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.Transient;
+
 /**
  * 功能描述: 基础分页参数封装
  *
@@ -13,10 +15,10 @@ import lombok.Data;
 public class PageInfo implements java.io.Serializable {
 
     private static final long serialVersionUID = -5214737781026620938L;
-
-    private int pageIndex = SystemConstants.DEFAULT_PAGE_INDEX;
-
-    private int pageSize = SystemConstants.DEFAULT_PAGE_SIZE;
+    @Transient
+    private Integer pageIndex = SystemConstants.DEFAULT_PAGE_INDEX;
+    @Transient
+    private Integer pageSize = SystemConstants.DEFAULT_PAGE_SIZE;
 
     private long total;
 

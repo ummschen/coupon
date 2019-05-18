@@ -1,6 +1,7 @@
 package com.coupon.api.dto;
 
 import com.coupon.api.utils.PageInfo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -38,21 +39,23 @@ public class CouponDTO extends PageInfo {
 
     @ApiModelProperty(value = "状态")
     private Integer status;
+    @ApiModelProperty(value = "状态描述")
+    private String statusDesc;
 
     @ApiModelProperty(value = "到期时间")
     private String endTime;
 
     @ApiModelProperty(value = "核销账户")
     private String writeOffAccount;
-
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
-
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
     @ApiModelProperty(value = "数量")
-    private int  num;
+    private Integer  num;
 
 
 

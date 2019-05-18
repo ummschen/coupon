@@ -3,6 +3,7 @@ package com.coupon.api.controller;
 import com.coupon.api.dto.CouponDTO;
 import com.coupon.api.entity.CouponDO;
 import com.coupon.api.entity.CouponStatDO;
+import com.coupon.api.enums.CouponStatusEnum;
 import com.coupon.api.service.CouponService;
 import com.coupon.api.service.CouponStatService;
 import com.coupon.api.utils.*;
@@ -31,6 +32,9 @@ public class CouponController {
     public Result list(@RequestBody CouponDO couponDO){
         PagingModel<CouponDTO> CouponDOPagingModel = new PagingModel<>();
         List<CouponDTO> couponDTOList=couponService.queryList(couponDO);
+        for (CouponDTO couponDTO : couponDTOList) {
+            couponDTO.setStatusDesc(CouponStatusEnum.getCouponStatusEnum(couponDTO.getStatus()).getName());
+        }
         int total =couponService.queryCount(couponDO);
         CouponDOPagingModel.setResults(couponDTOList);
         CouponDOPagingModel.setTotal(total);
@@ -68,7 +72,7 @@ public class CouponController {
     @RequestMapping(value = "/batch_generate", method = {RequestMethod.POST})
     @ApiOperation(value = "券码生成", httpMethod ="POST")
     public Result batchGenerate(@RequestBody CouponDTO couponDTO){
-        if (couponDTO!=null){
+        if (couponDTO!=null&&StringUtils.isNotBlank(couponDTO.getEndTime())){
             String endTime = couponDTO.getEndTime();
             try {
                long diff= DateUtil.getMilliDifference(endTime);
@@ -119,12 +123,13 @@ public class CouponController {
             String channel= coupon.getChannelCode();
             String business= coupon.getBusinessCode();
             Integer status =coupon.getStatus();
+
             String writeOffAccount=coupon.getWriteOffAccount();
             String endTime= coupon.getEndTime();
             String createTime= DateUtil.getNowTime(coupon.getCreateTime());
             String updateTime= DateUtil.getNowTime(coupon.getUpdateTime());
             Object[]  obj = {id==null?0:id,(StringUtils.isBlank(couponCode)?"无":couponCode),(StringUtils.isBlank(type)?"无":type),price==0?0:price,(StringUtils.isBlank(channel)?"无":channel)
-                    ,(StringUtils.isBlank(business)?"无":business),status==null?0:status,
+                    ,(StringUtils.isBlank(business)?"无":business),CouponStatusEnum.getCouponStatusEnum(status).getName(),
                     (StringUtils.isBlank(writeOffAccount)?"无":writeOffAccount),(StringUtils.isBlank(endTime)?"无":endTime),(StringUtils.isBlank(createTime)?"无":createTime),(StringUtils.isBlank(updateTime)?"无":updateTime)};
             dataList.add(obj);
         }

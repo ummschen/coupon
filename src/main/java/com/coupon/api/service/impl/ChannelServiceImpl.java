@@ -8,10 +8,12 @@ import com.coupon.api.mapper.AccountDOMapper;
 import com.coupon.api.mapper.ChannelDOMapper;
 import com.coupon.api.service.AccountService;
 import com.coupon.api.service.ChannelService;
+import com.coupon.api.utils.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,6 +24,15 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     public int save(ChannelDO channelDO) {
+        if(channelDO!=null&& StringUtils.isNotBlank(channelDO.getChannelCode())){
+            ChannelDO channel = new ChannelDO();
+            channel.setChannelCode(channelDO.getChannelCode());
+            ChannelDO resultChannel=channelDOMapper.selectOne(channel);
+            if(resultChannel!=null){
+                return -2;
+            }
+        }
+        channelDO.setCreateTime(new Date());
         return channelDOMapper.insertSelective(channelDO);
     }
 
@@ -32,12 +43,11 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     public int queryCount(ChannelDO channelDO) {
-        return channelDOMapper.selectCount(channelDO);
+        return channelDOMapper.queryCount(channelDO);
     }
 
     @Override
     public List<ChannelDO> queryList(ChannelDO channelDO) {
-        RowBounds rowBounds=new RowBounds(channelDO.getPageIndex(),channelDO.getPageSize());
-        return channelDOMapper.selectByRowBounds(channelDO,rowBounds);
+        return channelDOMapper.queryList(channelDO);
     }
 }

@@ -1,6 +1,7 @@
 package com.coupon.api.entity;
 
 import com.coupon.api.utils.PageInfo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Value;
@@ -21,16 +22,20 @@ public class CouponTypeDO extends PageInfo {
 
     @ApiModelProperty(value = "券码类型名称")
     private String name;
+    @ApiModelProperty(value = "商户编码")
+    private String businessCode;
+    @ApiModelProperty(value = "商户名称")
+    private String businessName;
     @Column(name = "price")
     @ApiModelProperty(value = "券码金额")
     private BigDecimal price;
 
     @ApiModelProperty(value = "启用")
-    private int enable;
+    private Integer enable;
 
     @ApiModelProperty(value = "备注")
     private String remark;
-
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
     @ApiModelProperty(value = "开始创建时间")
@@ -39,6 +44,7 @@ public class CouponTypeDO extends PageInfo {
     @ApiModelProperty(value = "结束创建时间")
     @Transient
     private String endCreateTime;
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 

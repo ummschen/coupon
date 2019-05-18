@@ -46,17 +46,17 @@
 
   <sql id="sqlWhere">
     <where>
-      <if test="id != null ">and account.id = #{id}</if>
-      <if test="account != null and account != ''">and account = #{account}</if>
-      <if test="accountName != null and accountName != ''">and account_name like concat('%',#{accountName},'%')</if>
-      <if test="channelCode != null and channelCode != ''">and account.`channel_code` = #{channelCode}</if>
-      <if test="businessCode != null and businessCode != ''">and account.`business_code` = #{businessCode}</if>
-      <!-- <if test="channelName != null and channelName != ''">and `channel_name`like concat('%',#{channelName},'%')</if>
-      <if test="businessName != null and businessName != ''">and `business_name` like concat('%',#{businessName},'%')</if>-->
-      <if test="enable != null ">and account.`enable` = #{enable}</if>
-      <if test="remark != null and remark != ''">and account.`remark` like concat('%',#{remark},'%') </if>
-      <if test="startCreateTime != null and startCreateTime != ''">and   account.`create_time` <![CDATA[>=]]>#{startCreateTime,jdbcType=TIMESTAMP} </if>
-      <if test="endCreateTime != null and endCreateTime != ''">and    account.`create_time`<![CDATA[<=]]>#{endCreateTime,jdbcType=TIMESTAMP}</if>
+      <if test='id != null '>and account.id = #{id}</if>
+      <if test='account != null and account != ""'>and account.account = #{account}</if>
+      <if test='accountName != null and accountName != ""'>and account.account_name like concat('%',#{accountName},'%')</if>
+      <if test='channelCode != null and channelCode != ""'>and account.`channel_code` = #{channelCode}</if>
+      <if test='businessCode != null and businessCode != ""'>and account.`business_code` = #{businessCode}</if>
+      <!-- <if test='channelName != null and channelName != ""'>and `channel_name`like concat('%',#{channelName},'%')</if>
+      <if test='businessName != null and businessName != ""'>and `business_name` like concat('%',#{businessName},'%')</if>-->
+      <if test='enable != null '>and account.`enable` = #{enable}</if>
+      <if test='remark != null and remark != ""'>and account.`remark` like concat('%',#{remark},'%') </if>
+      <if test='startCreateTime != null and startCreateTime != ""'>and   account.`create_time` <![CDATA[>=]]>#{startCreateTime,jdbcType=TIMESTAMP} </if>
+      <if test='endCreateTime != null and endCreateTime != ""'>and    account.`create_time`<![CDATA[<=]]>#{endCreateTime,jdbcType=TIMESTAMP}</if>
     </where>
   </sql>
 </mapper>

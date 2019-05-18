@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface ChannelDOMapper extends Mapper<ChannelDO> {
-    List<ChannelDTO> queryList(ChannelDO channelDO);
+    List<ChannelDO> queryList(ChannelDO channelDO);
     int queryCount(ChannelDO channelDO);
 }

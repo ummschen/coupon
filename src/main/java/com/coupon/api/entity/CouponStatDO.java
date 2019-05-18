@@ -1,6 +1,7 @@
 package com.coupon.api.entity;
 
 import com.coupon.api.utils.PageInfo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -22,9 +23,9 @@ public class CouponStatDO extends PageInfo {
     private Integer unWriteOff;
 
     private Integer couponTotal;
-
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
 }

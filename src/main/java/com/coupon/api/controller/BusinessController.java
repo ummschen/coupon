@@ -2,6 +2,7 @@ package com.coupon.api.controller;
 
 import com.coupon.api.dto.BusinessDTO;
 import com.coupon.api.entity.BusinessDO;
+import com.coupon.api.entity.ChannelDO;
 import com.coupon.api.service.BusinessService;
 import com.coupon.api.utils.CopyUtil;
 import com.coupon.api.utils.PagingModel;
@@ -25,7 +26,7 @@ public class BusinessController {
     BusinessService businessService;
 
     @RequestMapping(value = "/list", method = {RequestMethod.POST})
-    @ApiOperation(value = "商户列表", httpMethod ="POST")
+    @ApiOperation(value = "商户列表_分页", httpMethod ="POST")
     public Result list(@RequestBody BusinessDO businessDO){
         PagingModel<BusinessDTO> businessDTOPagingModel = new PagingModel<>();
         List<BusinessDO> businessList=businessService.queryList(businessDO);
@@ -41,10 +42,35 @@ public class BusinessController {
         return  Result.ofSuccess(businessDTOPagingModel);
     }
 
+    @RequestMapping(value = "/list_all", method = {RequestMethod.POST})
+    @ApiOperation(value = "商户列表_所有", httpMethod ="POST")
+    public Result listAll(@RequestBody BusinessDO businessDO){
+        if(businessDO==null){
+            businessDO = new BusinessDO();
+        }
+        PagingModel<BusinessDTO> businessDTOPagingModel = new PagingModel<>();
+        businessDO.setPageIndex(null);
+        businessDO.setPageSize(null);
+        List<BusinessDO> businessList=businessService.queryList(businessDO);
+        List <BusinessDTO> businessDTOList= new ArrayList<>();
+        for (BusinessDO business : businessList) {
+            businessDTOList.add(CopyUtil.copy(business,BusinessDTO.class));
+        }
+        int total =businessService.queryCount(businessDO);
+        businessDTOPagingModel.setTotal(total);
+        businessDTOPagingModel.setPageSize(total);
+        businessDTOPagingModel.setResults(businessDTOList);
+        return  Result.ofSuccess(businessDTOPagingModel);
+    }
+
+
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
     @ApiOperation(value = "商户保存", httpMethod ="POST")
     public Result save(@RequestBody BusinessDO businessDO){
         int  falg=businessService.save(businessDO);
+        if( falg== -2){
+            Result.ofError("保存失败！！！该商户编码已存在");
+        }
         if(falg>0){
             return  Result.ofSuccess("商户保存成功");
         }

@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.coupon.api" )
 @MapperScan(basePackages = {"com.coupon.api.mapper"})
 @Slf4j
 public class CouponApplication  implements CommandLineRunner {

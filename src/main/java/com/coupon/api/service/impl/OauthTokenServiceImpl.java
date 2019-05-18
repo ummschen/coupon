@@ -20,6 +20,7 @@ public class OauthTokenServiceImpl implements OauthTokenService {
 
     @Override
     public int save(OauthTokenDO oauthTokenDO) {
+        oauthTokenDO.setCreateTime(new Date());
         return oauthTokenDOMapper.insertSelective(oauthTokenDO);
     }
 
@@ -39,28 +40,26 @@ public class OauthTokenServiceImpl implements OauthTokenService {
         return oauthTokenDO;
     }
 
-    @Override
+    /*@Override
     public List<OauthTokenDO> queryList(OauthTokenDO oauthTokenDO) {
         RowBounds rowBounds=new RowBounds(oauthTokenDO.getPageIndex(),oauthTokenDO.getPageSize());
         return oauthTokenDOMapper.selectByRowBounds(oauthTokenDO,rowBounds);
-    }
+    }*/
 
     @Override
     public OauthTokenDO query(OauthTokenDO oauthTokenDO) {
         return oauthTokenDOMapper.selectOne(oauthTokenDO);
     }
     @Override
-    public String addLoginToken(String account) {
+    public String addLoginToken(String account ,Date date) {
         OauthTokenDO loginTicket = new OauthTokenDO();
         loginTicket.setAccount(account);
 
         OauthTokenDO oauthTokenDO = query(loginTicket);
 
-        Date date = new Date();
-        date.setTime(date.getTime() + 1000 * 3600 * 2);
+
         loginTicket.setExpired(date);
         loginTicket.setStatus(0);
-        loginTicket.setCreateTime(new Date());
         loginTicket.setToken(UUID.randomUUID().toString().replaceAll("-", ""));
 
         if (oauthTokenDO != null && oauthTokenDO.getId() > 0) {

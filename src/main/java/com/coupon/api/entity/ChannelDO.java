@@ -1,6 +1,7 @@
 package com.coupon.api.entity;
 
 import com.coupon.api.utils.PageInfo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -25,7 +26,7 @@ public class ChannelDO extends PageInfo {
 
     @ApiModelProperty(value = "备注")
     private String remark;
-
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
     @ApiModelProperty(value = "开始创建时间")
@@ -35,6 +36,7 @@ public class ChannelDO extends PageInfo {
     @Transient
     private String endCreateTime;
     @ApiModelProperty(value = "更新时间")
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
 

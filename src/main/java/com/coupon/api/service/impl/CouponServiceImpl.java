@@ -35,6 +35,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public int save(CouponDO couponDO) {
+        couponDO.setCreateTime(new Date());
         return couponDOMapper.insertSelective(couponDO);
     }
 
@@ -45,7 +46,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public int queryCount(CouponDO couponDO) {
-        return couponDOMapper.selectCount(couponDO);
+        return couponDOMapper.queryCount(couponDO);
     }
 
 
@@ -119,10 +120,12 @@ public class CouponServiceImpl implements CouponService {
                 &&StringUtils.isNotBlank(couponDO.getBusinessCode())
         ){
             String couponCode = couponDO.getCoupon();
+            String writeOffAccount=couponDO.getWriteOffAccount();
             CouponDO couponEntity= new CouponDO();
             couponEntity.setCoupon(couponCode);
             couponEntity.setBusinessCode(couponDO.getBusinessCode());
             couponEntity.setChannelCode(couponDO.getChannelCode());
+
             CouponDO coupon=couponDOMapper.selectOne(couponEntity);
             if(coupon==null) return Result.ofError("核销失败 该券码不存在！！！");
 
@@ -130,6 +133,7 @@ public class CouponServiceImpl implements CouponService {
 
             if(coupon.getEndTime()!=null&&DateUtil.minusSecond(coupon.getEndTime(),new Date())<0){
                 coupon.setStatus(CouponStatusEnum.Invalid.getCode());
+                coupon.setWriteOffAccount(writeOffAccount);
                 couponDOMapper.updateByPrimaryKeySelective(coupon);
                 return Result.ofError("该券码已过期失效！！！");
             }

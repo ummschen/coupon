@@ -23,7 +23,7 @@ public class OauthTokenController {
     @Autowired
     OauthTokenService oauthTokenService;
 
-    @RequestMapping(value = "/list", method = {RequestMethod.POST})
+   /* @RequestMapping(value = "/list", method = {RequestMethod.POST})
     public Result list(@RequestBody OauthTokenDO oauthTokenDO){
         PagingModel<OauthTokenDTO> accountDTOPagingModel = new PagingModel<>();
         List<OauthTokenDO> oauthTokenList=oauthTokenService.queryList(oauthTokenDO);
@@ -37,7 +37,7 @@ public class OauthTokenController {
         accountDTOPagingModel.setPageIndex(oauthTokenDO.getPageIndex());
         accountDTOPagingModel.setPageSize(oauthTokenDO.getPageSize());
         return  Result.ofSuccess(accountDTOPagingModel);
-    }
+    }*/
 
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
     public Result save(@RequestBody OauthTokenDO oauthTokenDO){

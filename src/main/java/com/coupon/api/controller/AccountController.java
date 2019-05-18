@@ -40,6 +40,9 @@ public class AccountController {
     @ApiOperation(value = "账户新增", httpMethod ="POST")
     public Result save(@RequestBody AccountDO accountDO){
         int  falg=accountService.save(accountDO);
+        if( falg== -2){
+            Result.ofError("保存失败！！！该渠道编码已存在");
+        }
         if(falg>0){
             return  Result.ofSuccess("用户保存成功");
         }

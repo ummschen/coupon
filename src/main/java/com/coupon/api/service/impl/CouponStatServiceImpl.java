@@ -18,6 +18,7 @@ public class CouponStatServiceImpl implements CouponStatService {
 
     @Override
     public int save(CouponStatDO couponStatDO) {
+        couponStatDO.setCreateTime(new Date());
         return couponStatDOMapper.insertSelective(couponStatDO);
     }
 

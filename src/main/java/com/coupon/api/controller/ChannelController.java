@@ -25,7 +25,7 @@ public class ChannelController {
     ChannelService channelService;
 
     @RequestMapping(value = "/list", method = {RequestMethod.POST})
-    @ApiOperation(value = "渠道列表", httpMethod ="POST")
+    @ApiOperation(value = "渠道列表_分页", httpMethod ="POST")
     public Result list(@RequestBody ChannelDO channelDO){
         PagingModel<ChannelDTO> channelDOPagingModel = new PagingModel<>();
         List<ChannelDO> ChannelList=channelService.queryList(channelDO);
@@ -41,10 +41,35 @@ public class ChannelController {
         return  Result.ofSuccess(channelDOPagingModel);
     }
 
+    @RequestMapping(value = "/list_all", method = {RequestMethod.POST})
+    @ApiOperation(value = "渠道列表_所有", httpMethod ="POST")
+    public Result listAll(@RequestBody ChannelDO channelDO){
+
+        if(channelDO==null){
+             channelDO = new ChannelDO();
+        }
+        PagingModel<ChannelDTO> channelDOPagingModel = new PagingModel<>();
+        channelDO.setPageIndex(null);
+        channelDO.setPageSize(null);
+        List<ChannelDO> ChannelList=channelService.queryList(channelDO);
+        List<ChannelDTO> channelDTOList= new ArrayList<>();
+        for (ChannelDO channel : ChannelList) {
+            channelDTOList.add(CopyUtil.copy(channel, ChannelDTO.class));
+        }
+        int total =channelService.queryCount(channelDO);
+        channelDOPagingModel.setResults(channelDTOList);
+        channelDOPagingModel.setTotal(total);
+        channelDOPagingModel.setPageSize(total);
+        return  Result.ofSuccess(channelDOPagingModel);
+    }
+
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
     @ApiOperation(value = "渠道新增", httpMethod ="POST")
     public Result save(@RequestBody ChannelDO channelDO){
         int  falg=channelService.save(channelDO);
+        if( falg== -2){
+            Result.ofError("保存失败！！！该渠道编码已存在");
+        }
         if(falg>0){
             return  Result.ofSuccess("渠道保存成功");
         }
