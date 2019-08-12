@@ -23,7 +23,7 @@ public class AccountServiceImpl implements AccountService {
     public int save(AccountDO accountDO) {
         if(accountDO!=null&& StringUtils.isNotBlank(accountDO.getAccount())){
             AccountDO account = new AccountDO();
-            account.setBusinessCode(accountDO.getAccount());
+            account.setAccount(accountDO.getAccount());
             AccountDO resultAccount=accountDOMapper.selectOne(account);
             if(resultAccount!=null){
                 return -2;

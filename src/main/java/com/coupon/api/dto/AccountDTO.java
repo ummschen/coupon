@@ -26,6 +26,12 @@ public class AccountDTO extends PageInfo {
     private String business;
     @ApiModelProperty(value = " 商户名称")
     private String businessName;
+    @ApiModelProperty(value = "负责人")
+    private String leader;
+    @ApiModelProperty(value = "手机号")
+    private String phone;
+    @ApiModelProperty(value = "地址")
+    private String address;
     @ApiModelProperty(value = "启用状态 0:未启用 1:启用 2:废弃")
     private Integer enable;
     @ApiModelProperty(value = "备注")
@@ -38,6 +44,9 @@ public class AccountDTO extends PageInfo {
     private Date updateTime;
     @ApiModelProperty(value = "Token")
     private String token;
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "Token")
+    private Date tokenEndTime;
     @ApiModelProperty(value = "开始创建时间")
     private String startCreateTime;
     @ApiModelProperty(value = "结束创建时间")

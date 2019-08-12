@@ -3,6 +3,7 @@ package com.coupon.api;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import tk.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @SpringBootApplication(scanBasePackages = "com.coupon.api" )
 @MapperScan(basePackages = {"com.coupon.api.mapper"})
+@EnableScheduling
 @Slf4j
 public class CouponApplication  implements CommandLineRunner {
     public static void main(String[] args) {

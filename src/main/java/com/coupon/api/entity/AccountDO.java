@@ -21,7 +21,7 @@ public class AccountDO extends PageInfo {
     @ApiModelProperty(value = "用户名称")
     private String accountName;
 
-    @ApiModelProperty(value = "ID")
+    @ApiModelProperty(value = "密码")
     private String password;
 
     @ApiModelProperty(value = "渠道编码")
@@ -29,6 +29,15 @@ public class AccountDO extends PageInfo {
 
     @ApiModelProperty(value = "商户编码")
     private String businessCode;
+
+    @ApiModelProperty(value = "负责人")
+    private String leader;
+
+    @ApiModelProperty(value = "手机号")
+    private String phone;
+
+    @ApiModelProperty(value = "地址")
+    private String address;
 
     @ApiModelProperty(value = "启用状态 0:未启用 1:启用 2:废弃")
     private Integer enable;

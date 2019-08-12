@@ -32,7 +32,7 @@
     <include refid="sqlWhere"/>
     order by `create_time` desc
     <if test="pageIndex != null and pageSize != null">
-      limit #{pageIndex}, #{pageSize}
+      limit #{offset}, #{pageSize}
     </if>
 
   </select>
@@ -54,5 +54,16 @@
       <if test='endCreateTime != null and endCreateTime != ""'>and    tyep.`create_time`<![CDATA[<=]]>#{endCreateTime,jdbcType=TIMESTAMP}</if>
     </where>
   </sql>
+
+
+  <select id="selectByPrice" resultType="com.coupon.api.entity.CouponTypeDO">
+    select <include refid="baseColumn"/> from `coupon_type` where  business_code=#{businessCode} and price=#{price} and name=#{name}  and id!=#{id};
+
+
+  </select>
+
+  <select id="selectByName" resultType="com.coupon.api.entity.CouponTypeDO">
+    select <include refid="baseColumn"/> from `coupon_type` where  name=#{name}  and id!=#{id};
+  </select>
 
 </mapper>

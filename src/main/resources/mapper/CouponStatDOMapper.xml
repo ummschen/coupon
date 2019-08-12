@@ -42,7 +42,7 @@
   </update>
 
    <select id="selectUnWriteOffByCouponStatDO" resultType="integer">
-      select un_write_off from coupon_stat
+      select ifnull(un_write_off,0) from coupon_stat
         where  business_code=#{couponStat.businessCode}
            and channel_code=#{couponStat.channelCode}
            and coupon_type=#{couponStat.couponType}
@@ -50,14 +50,21 @@
    </select>
 
     <select id="queryList" parameterType="com.coupon.api.entity.CouponStatDO" resultType="com.coupon.api.entity.CouponStatDO">
-    select <include refid="baseColumn"/> from coupon_stat
+    select  coupon_stat.`id`, coupon_stat.`business_code`, coupon_stat.`channel_code`, coupon_stat.`coupon_type`, coupon_stat.`write_off`, coupon_stat.`un_write_off`, coupon_stat.`coupon_total`, coupon_stat.`create_time`, coupon_stat.`update_time`
+        ,coupon_type.name coupon_type_name,business.business_name,channel.channel_name,coupon_type.price type_price
+        from coupon_stat
+        LEFT JOIN channel on coupon_stat.channel_code=channel.channel_code
+        LEFT JOIN business on coupon_stat.business_code=business.business_code
+        LEFT JOIN coupon_type on coupon_stat.coupon_type=coupon_type.code
     <where>
-        <if test='couponType != null and couponType != ""'>and coupon_type = #{couponType}</if>
-        <if test='channelCode != null and channelCode != ""'>and channel_code = #{channelCode}</if>
-        <if test='businessCode != null and businessCode != ""'>and business_code = #{businessCode}</if>
+        <if test='couponType != null and couponType != ""'>and coupon_stat.coupon_type = #{couponType}</if>
+        <if test='channelCode != null and channelCode != ""'>and coupon_stat.channel_code = #{channelCode}</if>
+        <if test='businessCode != null and businessCode != ""'>and coupon_stat.business_code = #{businessCode}</if>
+        <if test='typePrice != null '>and coupon_type.price = #{typePrice}</if>
     </where>
-    <if test="pageIndex != null and pageSize != null">
-        limit #{pageIndex}, #{pageSize}
+    order by coupon_stat.update_time desc ,coupon_stat.business_code ,coupon_stat.channel_code
+        <if test="pageIndex != null and pageSize != null">
+        limit #{offset}, #{pageSize}
     </if>
 
 

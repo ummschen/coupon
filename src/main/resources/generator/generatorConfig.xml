@@ -29,6 +29,6 @@
         <!--
 
         -->
-        <table tableName="coupon_stat" domainObjectName="CouponStatDO"/>
+        <table tableName="distribute" domainObjectName="DstributeDO"/>
     </context>
 </generatorConfiguration>

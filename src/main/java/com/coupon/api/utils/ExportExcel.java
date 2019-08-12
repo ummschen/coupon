@@ -112,7 +112,7 @@ public class ExportExcel {
 	                    HSSFCell currentCell = currentRow.getCell(colNum);
 	                    if (currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
 							int length = 0;
-	                    	if(!(currentCell == null || currentCell.toString() == "")){
+	                    	if(currentCell != null&&currentCell.getStringCellValue()!=null ){
 								length = currentCell.getStringCellValue().getBytes().length;
 							}
 	                        if (columnWidth < length) {

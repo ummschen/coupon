@@ -25,10 +25,16 @@
     <include refid="sqlWhere"/>
     order by `create_time` desc
     <if test="pageIndex != null and pageSize != null">
-      limit #{pageIndex}, #{pageSize}
+      limit #{offset}, #{pageSize}
     </if>
     
   </select>
+
+  <select id="queryByCode" resultType="com.coupon.api.entity.BusinessDO" >
+    select <include refid="baseColumn"/>  from `business` where  business_code =#{businessCode}
+
+  </select>
+
   <select id="queryCount" parameterType="com.coupon.api.entity.BusinessDO" resultType="int">
     SELECT count(*) from `business`
     <include refid="sqlWhere"/>

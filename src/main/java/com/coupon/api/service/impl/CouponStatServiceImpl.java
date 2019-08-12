@@ -71,6 +71,7 @@ public class CouponStatServiceImpl implements CouponStatService {
     }
 
     @Override
+    @Transactional
     public int writeOff(CouponStatDO couponStatDO) {
         int flat=0;
         if (couponStatDO!=null){

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coupon.api.mapper.CouponWriteMonthDOMapper" >
+  <resultMap id="BaseResultMap" type="com.coupon.api.entity.CouponWriteMonthDO" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="stat_month" property="statMonth" jdbcType="DATE" />
+    <result column="write_off_num" property="writeOffNum" jdbcType="INTEGER" />
+    <result column="write_off_total" property="writeOffTotal" jdbcType="DECIMAL" />
+    <result column="business_code" property="businessCode" jdbcType="VARCHAR" />
+    <result column="channel_code" property="channelCode" jdbcType="VARCHAR" />
+    <result column="coupon_type" property="couponType" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+
+  <sql id="baseColumn" >
+    `id`, `account`, `stat_month`, `channel_code`, `business_code`,coupon_type, `write_off_num`, `write_off_total`, `create_time`, `update_time`
+  </sql>
+
+
+  <select id="queryList" resultType="com.coupon.api.entity.CouponWriteMonthDO" parameterType="com.coupon.api.entity.CouponWriteMonthDO">
+    select  coupon_write_month.`id`,coupon_write_month.`account`,coupon_write_month.`stat_month`, coupon_write_month.`business_code`,
+    coupon_write_month.`channel_code`, coupon_write_month.`coupon_type`,
+    coupon_write_month.`write_off_num`,  coupon_write_month.`write_off_total`,
+    coupon_write_month.`create_time`, coupon_write_month.`update_time`,
+    coupon_type.name coupon_type_name,business.business_name,channel.channel_name
+    from coupon_write_month
+    LEFT JOIN channel on coupon_write_month.channel_code=channel.channel_code
+    LEFT JOIN business on coupon_write_month.business_code=business.business_code
+    LEFT JOIN coupon_type on coupon_write_month.coupon_type=coupon_type.code
+
+    <include refid="sqlWhere"/>
+
+    order by stat_month desc, coupon_write_month.account,  coupon_write_month.business_code,coupon_write_month.`channel_code`, coupon_write_month.`coupon_type`
+    <if test="pageIndex != null and pageSize != null">
+      limit #{offset}, #{pageSize}
+    </if>
+
+  </select>
+
+  <select id="queryCount" resultType="int" parameterType="com.coupon.api.entity.CouponWriteMonthDO">
+    select count(*)  from coupon_write_month <include refid="sqlWhere"/>
+
+  </select>
+
+  <sql id="sqlWhere">
+    <where>
+      <if test='account != null and account != ""'>and coupon_write_month.account = #{account}</if>
+      <if test='startStatMonth != null and startStatMonth != ""'>and   coupon_write_month.`stat_month` <![CDATA[>=]]>#{startStatMonth,jdbcType=TIMESTAMP} </if>
+      <if test='endStatMonth != null and endStatMonth != ""'>and    coupon_write_month.`stat_month`<![CDATA[<=]]>#{endStatMonth,jdbcType=TIMESTAMP}</if>
+      <if test='businessCode != null and businessCode != ""'>and coupon_write_month.business_code = #{businessCode}</if>
+      <if test='channelCode != null and channelCode != ""'>and coupon_write_month.channel_code = #{channelCode}</if>
+      <if test='couponType != null and couponType != ""'>and coupon_write_month.coupon_type = #{couponType}</if>
+    </where>
+
+  </sql>
+
+
+
+
+
+  <insert id="task" >
+    INSERT INTO `coupon`.`coupon_write_month` ( `account`, `stat_month`,business_code,channel_code,coupon_type, `write_off_num`, `write_off_total`, `create_time`, `update_time`)
+    SELECT account,#{startDay},business_code,channel_code,coupon_type,SUM(write_off_num),SUM(write_off_total),NOW(),NOW()
+    from coupon_write_day
+    where stat_day<![CDATA[>=]]>#{startDay}
+    and stat_day<![CDATA[<=]]>#{endDay}
+    GROUP BY account,LEFT(stat_day,7),business_code,channel_code,coupon_type
+    ON DUPLICATE KEY UPDATE
+    write_off_num=values(write_off_num),
+    write_off_total=values(write_off_total);
+  </insert>
+</mapper>

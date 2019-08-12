@@ -70,6 +70,7 @@ public class LoginController {
             date.setTime(date.getTime() + 1000 * 3600 * 10);
             String token=oauthTokenService.addLoginToken(account.getAccount(),date);
             accountDTO.setToken(token);
+            accountDTO.setTokenEndTime(date);
             return  Result.ofSuccess(accountDTO);
         }
         return  Result.ofError("账号或密码错误");

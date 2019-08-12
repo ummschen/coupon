@@ -19,7 +19,9 @@ public class SpringbootIntercepterConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns(  "/coupon/manage/login","/coupon/login")
+                .excludePathPatterns(  "/coupon/manage/login","/coupon/login"
+                 // ,"/**"
+                )
                 .excludePathPatterns("/swagger-ui.html")
                 .excludePathPatterns("/configuration/ui")
                 .excludePathPatterns("/swagger-resources")

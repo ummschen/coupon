@@ -68,7 +68,7 @@ public class ChannelController {
     public Result save(@RequestBody ChannelDO channelDO){
         int  falg=channelService.save(channelDO);
         if( falg== -2){
-            Result.ofError("保存失败！！！该渠道编码已存在");
+            return  Result.ofError("保存失败！！！该渠道编码已存在");
         }
         if(falg>0){
             return  Result.ofSuccess("渠道保存成功");

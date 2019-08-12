@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class CouponDTO extends PageInfo {
     @Id
-    @ApiModelProperty(value = "渠道名称")
+    @ApiModelProperty(value = "ID")
     private Integer id;
 
     @ApiModelProperty(value = "券码")
@@ -25,17 +25,26 @@ public class CouponDTO extends PageInfo {
     @ApiModelProperty(value = "券码种类")
     private String couponType;
 
+    @ApiModelProperty(value = "券码种类名称")
+    private String couponTypeName;
+
     @ApiModelProperty(value = "金额")
     private double price;
 
     @ApiModelProperty(value = "渠道编码")
     private String channelCode;
+    @ApiModelProperty(value = "渠道名称")
+    private String channelName;
 
-    @ApiModelProperty(value = "渠道编码")
+    @ApiModelProperty(value = "渠道编码数组")
     private List<String> channelCodes;
+    @ApiModelProperty(value = "券码种类数组")
+    private List<String> couponTypes;
 
     @ApiModelProperty(value = "商户编码")
     private String businessCode;
+    @ApiModelProperty(value = "商户名称")
+    private String businessName;
 
     @ApiModelProperty(value = "状态")
     private Integer status;
@@ -43,10 +52,16 @@ public class CouponDTO extends PageInfo {
     private String statusDesc;
 
     @ApiModelProperty(value = "到期时间")
-    private String endTime;
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
+    private Date endTime;
 
     @ApiModelProperty(value = "核销账户")
     private String writeOffAccount;
+    @ApiModelProperty(value = "核销账户名称")
+    private String writeOffAccountName;
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "核销时间")
+    private Date writeOffTime;
     @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
@@ -57,6 +72,11 @@ public class CouponDTO extends PageInfo {
     @ApiModelProperty(value = "数量")
     private Integer  num;
 
+    @JsonFormat(timezone = "GMT+8", pattern ="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "分发时间")
+    private Date distributeTime;
+    @ApiModelProperty(value = "分发序列号")
+    private String  distributeSeq;
 
 
 

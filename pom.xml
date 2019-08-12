@@ -24,6 +24,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
         <!--excel工具 start-->
         <dependency>
             <groupId>org.apache.poi</groupId>

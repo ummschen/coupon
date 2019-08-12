@@ -41,7 +41,7 @@ public class AccountController {
     public Result save(@RequestBody AccountDO accountDO){
         int  falg=accountService.save(accountDO);
         if( falg== -2){
-            Result.ofError("保存失败！！！该渠道编码已存在");
+            return  Result.ofError("保存失败！！！该用户已存在");
         }
         if(falg>0){
             return  Result.ofSuccess("用户保存成功");

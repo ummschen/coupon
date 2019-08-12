@@ -69,7 +69,7 @@ public class BusinessController {
     public Result save(@RequestBody BusinessDO businessDO){
         int  falg=businessService.save(businessDO);
         if( falg== -2){
-            Result.ofError("保存失败！！！该商户编码已存在");
+            return  Result.ofError("保存失败！！！该商户编码已存在");
         }
         if(falg>0){
             return  Result.ofSuccess("商户保存成功");

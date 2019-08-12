@@ -12,7 +12,7 @@ public interface CouponStatDOMapper extends Mapper<CouponStatDO> {
     int  generate(@Param("couponStat") CouponStatDO couponStat,@Param("num") int num);
     int  writeOff(@Param("couponStat")CouponStatDO couponStat);
     int  distribute(@Param("couponStat")CouponStatDO couponStat,@Param("num")int num);
-    int selectUnWriteOffByCouponStatDO(@Param("couponStat")CouponStatDO couponStat);
+    Integer selectUnWriteOffByCouponStatDO(@Param("couponStat")CouponStatDO couponStat);
     List<CouponStatDO> queryList(CouponStatDO couponStatDO);
     int queryCount(CouponStatDO couponStat);
 }

@@ -59,12 +59,18 @@ public class CouponTypeController {
     public Result save(@RequestBody CouponTypeDO couponTypeDO){
         int  falg=couponTypeService.save(couponTypeDO);
         if( falg== -2){
-            Result.ofError("保存失败！！！该渠道编码已存在");
+            return   Result.ofError("保存失败！！！该券码类型编码已存在");
         }
         if(falg>0){
             return  Result.ofSuccess("券码类型保存成功");
         }
         return  Result.ofError("券码类型保存失败");
+    }
+
+    @RequestMapping(value = "/saves", method = {RequestMethod.POST})
+    @ApiOperation(value = "批量券码类型保存", httpMethod ="POST")
+    public Result saves(@RequestBody CouponTypeDO couponTypeDO){
+        return  couponTypeService.saves(couponTypeDO);
     }
 
 
@@ -77,6 +83,9 @@ public class CouponTypeController {
             int  falg=couponTypeService.update(couponTypeDO);
             if(falg>0){
                 return  Result.ofSuccess("券码类型更新成功");
+            }
+            if( falg<0){
+                return   Result.ofError("更新失败！！！"+couponTypeDO.getName()+" 已有相同券码类型名称存在");
             }
         }
 

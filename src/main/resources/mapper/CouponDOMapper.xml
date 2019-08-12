@@ -16,23 +16,32 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="write_off_account" property="writeOffAccount" jdbcType="VARCHAR" />
+    <result column="write_off_time" property="writeOffTime" jdbcType="TIMESTAMP" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="distribute_time" property="distributeTime" jdbcType="TIMESTAMP" />
+    <result column="distribute_seq" property="distributeSeq" jdbcType="VARCHAR" />
   </resultMap>
 
 
   <sql id="baseColumn">
-    `id`, `coupon`,salt,encryption, `coupon_type`,`price`,`channel_code`,`business_code`,`status`,`end_time`,`write_off_account`,`create_time`,`update_time`
+    `id`, `coupon`,salt,encryption, `coupon_type`,`price`,`channel_code`,`business_code`,`status`,`end_time`,`write_off_account`,write_off_time,`create_time`,`update_time`,distribute_time,distribute_seq
   </sql>
 
 
 
   <select id="queryList" resultType="com.coupon.api.dto.CouponDTO" parameterType="com.coupon.api.entity.CouponDO">
-    select <include refid="baseColumn"/>  from `coupon`
+    select coupon.`id`,distribute_time,distribute_seq,account.account_name write_off_account_name, coupon.`coupon`,coupon.salt,coupon.encryption, coupon.`coupon_type`,coupon_type.name coupon_type_name,business.business_name,channel.channel_name,coupon.`price`,coupon.`channel_code`,coupon.`business_code`,coupon.`status`,coupon.`end_time`,coupon.`write_off_account`,coupon.`create_time`,coupon.`update_time`
+    ,coupon.write_off_time
+    from coupon
+    LEFT JOIN channel on coupon.channel_code=channel.channel_code
+    LEFT JOIN business on coupon.business_code=business.business_code
+    LEFT JOIN coupon_type on coupon.coupon_type=coupon_type.code
+    LEFT JOIN account on coupon.write_off_account=account.account
     <include refid="sqlWhere"/>
-    order by `create_time` desc
+    order by write_off_time desc, coupon.`id` desc
     <if test="pageIndex != null and pageSize != null">
-      limit #{pageIndex}, #{pageSize}
+      limit #{offset}, #{pageSize}
     </if>
 
   </select>
@@ -40,20 +49,30 @@
     SELECT count(*) from `coupon`
     <include refid="sqlWhere"/>
   </select>
+  <select id="groupByType" parameterType="com.coupon.api.entity.CouponDO" resultType="java.util.Map">
+    SELECT coupon_type.name name,count(*) con from `coupon` left join  coupon_type on coupon.coupon_type=coupon_type.code
+    <include refid="sqlWhere"/>
+    group  by coupon_type
+  </select>
 
   <sql id="sqlWhere">
     <where>
-      <if test='id != null '>and id = #{id}</if>
-      <if test='coupon != null and coupon != ""'>and coupon = #{coupon}</if>
-      <if test='couponType != null and couponType != ""'>and coupon_type = #{couponType}</if>
-      <if test='channelCode != null and channelCode != ""'>and channel_code = #{channelCode}</if>
-      <if test='businessCode != null and businessCode != ""'>and business_code = #{businessCode}</if>
-      <if test='writeOffAccount != null and writeOffAccount != ""'>and write_off_account = #{writeOffAccount}</if>
+      <if test='id != null '>and coupon.id = #{id}</if>
+      <if test='coupon != null and coupon != ""'>and coupon.coupon = #{coupon}</if>
+      <if test='couponType != null and couponType != ""'>and coupon.coupon_type = #{couponType}</if>
+      <if test='channelCode != null and channelCode != ""'>and coupon.channel_code = #{channelCode}</if>
+      <if test='businessCode != null and businessCode != ""'>and coupon.business_code = #{businessCode}</if>
+      <if test='writeOffAccount != null and writeOffAccount != ""'>and coupon.write_off_account = #{writeOffAccount}</if>
+      <if test='distributeSeq != null and distributeSeq != ""'>and coupon.distribute_seq like concat(#{distributeSeq},'%') </if>
       <!--<if test='end_time != null and end_time != ""'>and end_time = #{coupon}</if>-->
-      <if test='status != null '>and `status` = #{status}</if>
-      <if test='price != null and price !=0'>and `price` = #{price}</if>
-      <if test='startCreateTime != null and startCreateTime != ""'>and   `create_time` <![CDATA[>=]]>#{startCreateTime,jdbcType=TIMESTAMP} </if>
-      <if test='endCreateTime != null and endCreateTime != ""'>and    `create_time`<![CDATA[<=]]>#{endCreateTime,jdbcType=TIMESTAMP}</if>
+      <if test='status != null '>and coupon.`status` = #{status}</if>
+      <if test='price != null and price !=0'>and coupon.`price` = #{price}</if>
+      <if test='startCreateTime != null and startCreateTime != ""'>and   coupon.`create_time` <![CDATA[>=]]>#{startCreateTime,jdbcType=TIMESTAMP} </if>
+      <if test='endCreateTime != null and endCreateTime != ""'>and    coupon.`create_time`<![CDATA[<=]]>#{endCreateTime,jdbcType=TIMESTAMP}</if>
+      <if test='startWriteOffTime != null and startWriteOffTime != ""'>and   coupon.`write_off_time` <![CDATA[>=]]>#{startWriteOffTime,jdbcType=TIMESTAMP} </if>
+      <if test='endWriteOffTime != null and endWriteOffTime != ""'>and    coupon.`write_off_time`<![CDATA[<=]]>#{endWriteOffTime,jdbcType=TIMESTAMP}</if>
+      <if test='startDistributeTime != null and startDistributeTime != ""'>and   coupon.`distribute_time` <![CDATA[>=]]>#{startDistributeTime,jdbcType=TIMESTAMP} </if>
+      <if test='endDistributeTime != null and endDistributeTime != ""'>and    coupon.`distribute_time`<![CDATA[<=]]>#{endDistributeTime,jdbcType=TIMESTAMP}</if>
     </where>
   </sql>
 
@@ -79,7 +98,7 @@
    </insert>
 
   <update id="distribute" >
-    update  coupon set channel_code=#{coupon.channelCode} ,set status=1
+    update  coupon set channel_code=#{coupon.channelCode},distribute_time=#{coupon.distributeTime} ,distribute_seq=#{coupon.distributeSeq} , status=1
     where coupon_type =#{coupon.couponType}
           and business_code =#{coupon.businessCode}
           and status=0
@@ -90,5 +109,10 @@
   
   <select id="selecyByCouponCode" resultType="com.coupon.api.entity.CouponDO">
     select <include refid="baseColumn"/> from coupon where coupon =#{coupon};
+  </select>
+
+  <select id="sumPrice" parameterType="com.coupon.api.entity.CouponDO" resultType="double">
+    SELECT IFNULL(sum(price),0) from `coupon`
+      <include refid="sqlWhere"/>
   </select>
 </mapper>

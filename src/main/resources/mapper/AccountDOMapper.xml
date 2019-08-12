@@ -8,6 +8,9 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="channel_code" property="channelCode" jdbcType="VARCHAR" />
     <result column="business_code" property="businessCode" jdbcType="VARCHAR" />
+    <result column="leader" property="leader" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="enable" property="enable" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -15,18 +18,18 @@
   </resultMap>
 
   <sql id="baseColumn" >
-    `id`, `account`, `account_name`, `password`, `channel_code`, `business_code`, `enable`, `remark`, `create_time`, `update_time`
+    `id`, `account`, `account_name`, `password`,leader,phone,address, `channel_code`, `business_code`, `enable`, `remark`, `create_time`, `update_time`
   </sql>
   <select id="selectList" parameterType="com.coupon.api.entity.AccountDO" resultType="com.coupon.api.dto.AccountDTO">
     SELECT
-    account.`id`, `account`, `account_name`, `password`, account.`channel_code` channel,channel_name, account.`business_code` business,
+    account.`id`, `account`, `account_name`, `password`, account.`channel_code` channel,channel_name, account.`business_code` business,leader,phone,address,
     business_name, account.`enable`, account.`remark`, account.`create_time`, account.`update_time`
     from account LEFT JOIN channel on account.channel_code=channel.channel_code
     LEFT JOIN business on account.business_code=business.business_code
     <include refid="sqlWhere"/>
     order by account.`create_time` desc
     <if test="pageIndex != null and pageSize != null">
-      limit #{pageIndex}, #{pageSize}
+      limit #{offset}, #{pageSize}
     </if>
   </select>
 
@@ -48,9 +51,13 @@
     <where>
       <if test='id != null '>and account.id = #{id}</if>
       <if test='account != null and account != ""'>and account.account = #{account}</if>
+      <if test='leader != null and leader != ""'>and account.leader = #{leader}</if>
+      <if test='password != null and password != ""'>and account.password = #{password}</if>
       <if test='accountName != null and accountName != ""'>and account.account_name like concat('%',#{accountName},'%')</if>
       <if test='channelCode != null and channelCode != ""'>and account.`channel_code` = #{channelCode}</if>
       <if test='businessCode != null and businessCode != ""'>and account.`business_code` = #{businessCode}</if>
+      <if test='phone != null and phone != ""'>and account.`phone` = #{phone}</if>
+      <if test='address != null and address != ""'>and account.`address` = #{address}</if>
       <!-- <if test='channelName != null and channelName != ""'>and `channel_name`like concat('%',#{channelName},'%')</if>
       <if test='businessName != null and businessName != ""'>and `business_name` like concat('%',#{businessName},'%')</if>-->
       <if test='enable != null '>and account.`enable` = #{enable}</if>

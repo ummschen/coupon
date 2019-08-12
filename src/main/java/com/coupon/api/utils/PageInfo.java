@@ -1,6 +1,5 @@
 package com.coupon.api.utils;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Transient;
@@ -19,6 +18,8 @@ public class PageInfo implements java.io.Serializable {
     private Integer pageIndex = SystemConstants.DEFAULT_PAGE_INDEX;
     @Transient
     private Integer pageSize = SystemConstants.DEFAULT_PAGE_SIZE;
+    @Transient
+    private Integer offset = SystemConstants.DEFAULT_OFFSET;
 
     private long total;
 
@@ -28,13 +29,23 @@ public class PageInfo implements java.io.Serializable {
     public PageInfo(Integer pageIndex, Integer pageSize) {
         if (pageIndex == null || pageIndex == 0)
             this.pageIndex = SystemConstants.DEFAULT_PAGE_INDEX;
-        else
+        else{
             this.pageIndex = pageIndex;
+
+
+        }
         if (pageSize == null || pageSize == 0)
             this.pageSize = SystemConstants.DEFAULT_PAGE_SIZE;
         else
             this.pageSize = pageSize;
+
+
+
     }
 
-
+    public Integer getOffset() {
+        if(this.pageIndex>1){
+            return (this.pageIndex-1)*this.pageSize;
+        }else return 0;
+    }
 }
